@@ -128,3 +128,5 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+/PAI-2023-projekt-nr-1.pdf
+/PAI-2023-projekt-nr-2.pdf
