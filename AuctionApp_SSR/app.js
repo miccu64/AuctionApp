@@ -1,16 +1,21 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+import cookieParser from 'cookie-parser';
+import express from 'express';
+import createError from 'http-errors';
+import logger from 'morgan';
+import path from 'path';
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-const { authSequelize } = require('./database/database');
+import { authSequelize } from './database/database.js';
+import indexRouter from './routes/index.cjs';
+import usersRouter from './routes/users.cjs';
+
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 var app = express();
 
-// view engine setup
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -23,22 +28,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
+app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
   res.status(err.status || 500);
   res.render('error');
 });
 
-await authSequelize();
-
-module.exports = app;
+export const appPromise = authSequelize().then(function () {
+  return app;
+});
