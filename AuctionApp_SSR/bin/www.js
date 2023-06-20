@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import browserSync from 'browser-sync';
 import debug from 'debug';
 import { createServer } from 'http';
 import { appPromise } from '../app.js';
@@ -15,6 +16,14 @@ appPromise.then(function (app) {
   server.listen(port);
   server.on('error', onError);
   server.on('listening', onListening);
+
+  browserSync.create().init({
+    proxy: {
+      target: `http://localhost:${server.address().port}`,
+      ws: true
+    },
+    files: ['public/**/*.css', 'public/**/*.js', 'views/**/*.ejs']
+  });
 });
 
 function normalizePort(val) {
