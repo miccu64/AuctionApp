@@ -7,9 +7,6 @@ export const sequelize = new Sequelize('AuctionApp', 'sa', 'Agilero123!', {
       useUTC: false,
       dateFirst: 1
     }
-  }
+  },
+  logging: (sql) => console.log(sql)
 });
-
-export async function authSequelize() {
-  await sequelize.authenticate();
-}

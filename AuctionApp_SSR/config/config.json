@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "sa",
+    "password": "Agilero123!",
+    "database": "AuctionApp",
+    "host": "127.0.0.1",
+    "dialect": "mssql"
+  },
+  "test": {
+    "username": "sa",
+    "password": "Agilero123!",
+    "database": "AuctionApp",
+    "host": "127.0.0.1",
+    "dialect": "mssql"
+  },
+  "production": {
+    "username": "sa",
+    "password": "Agilero123!",
+    "database": "AuctionApp",
+    "host": "127.0.0.1",
+    "dialect": "mssql"
+  }
+}

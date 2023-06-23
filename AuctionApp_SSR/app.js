@@ -4,7 +4,7 @@ import createError from 'http-errors';
 import logger from 'morgan';
 import path from 'path';
 
-import { authSequelize } from './database/database.js';
+import { initSequelize } from './database/databaseInitializer.js';
 import indexRouter from './routes/index.cjs';
 import usersRouter from './routes/users.cjs';
 
@@ -41,6 +41,6 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
-export const appPromise = authSequelize().then(function () {
+export const appPromise = initSequelize().then(function () {
   return app;
 });
