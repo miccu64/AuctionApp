@@ -1,17 +1,17 @@
 html {
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 body {
-    padding-left: 50px;
-    padding-right: 50px;
-    font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
-    background-color: #7272c5;
-    flex-grow: 1;
+  padding-left: 50px;
+  padding-right: 50px;
+  font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
+  background-color: #7272c5;
+  flex-grow: 1;
 }
 
 a {
-    color: #00b7ff;
+  color: #00b7ff;
 }

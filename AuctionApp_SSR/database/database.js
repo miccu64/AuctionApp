@@ -1,4 +1,4 @@
-import { Sequelize } from 'sequelize';
+import { Sequelize } from 'sequelize'
 
 export const sequelize = new Sequelize('AuctionApp', 'sa', 'Agilero123!', {
   dialect: 'mssql',
@@ -8,5 +8,5 @@ export const sequelize = new Sequelize('AuctionApp', 'sa', 'Agilero123!', {
       dateFirst: 1
     }
   },
-  logging: (sql) => console.log(sql)
-});
+  logging: sql => console.log(sql)
+})

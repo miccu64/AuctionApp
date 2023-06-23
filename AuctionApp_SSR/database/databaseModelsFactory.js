@@ -1,5 +1,5 @@
-import { Auction } from '../models/auction.js';
-import { Offer } from '../models/offer.js';
+import { Auction } from '../models/auction.js'
+import { Offer } from '../models/offer.js'
 
 /**
  * @param {string} name
@@ -10,13 +10,13 @@ import { Offer } from '../models/offer.js';
  * @returns {Promise<Auction>}
  */
 export async function createAuction(name, startDateTime, endDateTime, creator, maxAmount) {
-    return await Auction.create({
-        name,
-        startDateTime,
-        endDateTime,
-        creator,
-        maxAmount,
-    });
+  return await Auction.create({
+    name,
+    startDateTime,
+    endDateTime,
+    creator,
+    maxAmount
+  })
 }
 
 /**
@@ -27,10 +27,10 @@ export async function createAuction(name, startDateTime, endDateTime, creator, m
  * @returns {Promise<Offer>}
  */
 export async function createOffer(creator, amount, dateTime, auctionId) {
-    return await Offer.create({
-        creator,
-        amount,
-        dateTime,
-        auctionId,
-    });
+  return await Offer.create({
+    creator,
+    amount,
+    dateTime,
+    auctionId
+  })
 }
