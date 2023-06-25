@@ -3,15 +3,17 @@ import { Offer } from '../models/offer.js'
 
 /**
  * @param {string} name
+ * @param {string} description
  * @param {Date} startDateTime
  * @param {Date} endDateTime
  * @param {string} creator
  * @param {number} maxAmount
  * @returns {Promise<Auction>}
  */
-export async function createAuction(name, startDateTime, endDateTime, creator, maxAmount) {
+export async function createAuction(name, description, startDateTime, endDateTime, creator, maxAmount) {
   return await Auction.create({
     name,
+    description,
     startDateTime,
     endDateTime,
     creator,

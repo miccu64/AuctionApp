@@ -1,0 +1,26 @@
+<table style="width: 100%; margin-top: 20px; margin-bottom: 20px">
+  <tr class="center">
+    <th>Lp</th>
+    <th>Tytuł przetargu</th>
+    <th>Data rozpoczęcia</th>
+    <th>Data zakończenia</th>
+  </tr>
+  <% for (var i = 0; i < auctions.length; i++) { %>
+  <tr>
+    <td><%= i+1 %></td>
+    <td>
+      <a href="/details/<%= auctions[i].id %>"><%= auctions[i].name %></a>
+    </td>
+    <td><%= auctions[i].startDateTime.toLocaleString() %></td>
+    <td><%= auctions[i].endDateTime.toLocaleString() %></td>
+  </tr>
+  <% } %>
+
+  <style>
+    table,
+    th,
+    td {
+      border: 1px solid black;
+    }
+  </style>
+</table>

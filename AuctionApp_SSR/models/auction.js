@@ -14,6 +14,10 @@ Auction.init(
       type: DataTypes.STRING,
       allowNull: false
     },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     startDateTime: {
       type: DataTypes.DATE,
       allowNull: false
