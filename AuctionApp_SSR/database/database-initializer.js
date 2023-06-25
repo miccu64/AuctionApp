@@ -13,7 +13,7 @@ async function initModels() {
   // TODO: delete drop
   await sequelize.drop()
 
-  const foreignKeyOptions = { foreignKey: 'auctionId' }
+  const foreignKeyOptions = { foreignKey: 'auctionId', as: 'offers' }
   Auction.hasMany(Offer, foreignKeyOptions)
   Offer.belongsTo(Auction, foreignKeyOptions)
 

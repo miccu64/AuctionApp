@@ -5,10 +5,11 @@ import { Auction } from '../models/auction.js'
 export const auctionsRouter = express.Router()
 
 auctionsRouter.get('/auctions', async function (req, res, next) {
+  const currentDateTime = new Date()
   const auctions = await Auction.findAll({
     where: {
       endDateTime: {
-        [Op.lt]: new Date()
+        [Op.gte]: currentDateTime
       }
     }
   })

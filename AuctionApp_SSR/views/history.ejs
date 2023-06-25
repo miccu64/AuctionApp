@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <%- include('partials/head'); %>
+  <body>
+    <div><%- include('partials/navbar'); %></div>
+    <table style="width: 100%; margin-top: 20px; margin-bottom: 20px">
+      <tr class="center">
+        <th>Lp</th>
+        <th>Tytuł przetargu</th>
+        <th>Data zakończenia</th>
+        <th>Ilość ofert</th>
+        <th>Status</th>
+      </tr>
+      <% for (var i = 0; i < auctions.length; i++) { %>
+      <tr>
+        <td><%= i+1 %></td>
+        <td>
+          <a href="/history/<%= auctions[i].id %>/details"><%= auctions[i].name %></a>
+        </td>
+        <td><%= auctions[i].endDateTime.toLocaleString() %></td>
+        <td><%= auctions[i].offers.length %></td>
+      </tr>
+      <% } %>
+    </table>
+  </body>
+</html>

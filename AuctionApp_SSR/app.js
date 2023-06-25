@@ -6,6 +6,7 @@ import path from 'path'
 
 import { initSequelize } from './database/database-initializer.js'
 import { auctionsRouter } from './routes/auctions.js'
+import { historyRouter } from './routes/history.js'
 import { indexRouter } from './routes/index.js'
 
 import { dirname } from 'path'
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter)
 app.use('/', auctionsRouter)
+app.use('/', historyRouter)
 
 app.use(function (req, res, next) {
   next(createError(404))
