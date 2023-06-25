@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <%- include('partials/head'); %>
+  <body>
+    <div><%- include('partials/navbar'); %></div>
+    <div class="center">
+      <h1 style="padding: 10px 0"><%- auction.name %></h1>
+      <h3>Opis: <%- auction.description %></h3>
+      <h3>Zamawiający: <%- auction.creator %></h3>
+      <h3>Data rozpoczęcia: <%= auction.startDateTime.toLocaleString() %></h3>
+      <h3>Data zakończenia: <%= auction.endDateTime.toLocaleString() %></h3>
+      <div style="margin: 40px 0">
+        <div class="marginButtons">
+          <a href="/auctions/<%= auction.id %>/add">
+            <button>Złóż nową ofertę</button>
+          </a>
+        </div>
+        <div class="marginButtons">
+          <a href="/auctions">
+            <button>Powrót do listy aktywnych przetargów</button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+  <style>
+    button {
+      font-size: larger;
+    }
+    .marginButtons {
+      margin: 20px 0;
+    }
+  </style>
+</html>

@@ -1,7 +1,7 @@
 import { Auction } from '../models/auction.js'
 import { Offer } from '../models/offer.js'
 import { sequelize } from './database.js'
-import { createAuction, createOffer } from './databaseModelsFactory.js'
+import { createAuction, createOffer } from './database-models-factory.js'
 
 export async function initSequelize() {
   await sequelize.authenticate()
@@ -25,7 +25,7 @@ async function initExampleData() {
   const auction1 = await createAuction('Test', 'Opis', new Date(), new Date(), 'Jan Kowalski', 22222)
   const auction2 = await createAuction(
     'Test2',
-    'Długi opis Długi opis Długi opis Długi opis Długi opis ',
+    'Długi opis Długi opis Długi opis Długi opis Długi opis',
     new Date(2011, 11, 11),
     new Date(2033, 11, 11),
     'Jan Kowalski',
