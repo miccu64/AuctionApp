@@ -5,15 +5,17 @@
     <%- include('partials/navbar'); %>
     <div class="center">
       <% if(message){ %>
-      <h1 color="red"><%- message %></h1>
+      <h1 color="yellow"><%- message %></h1>
       <% } %>
       <h1>Dodawanie nowej oferty</h1>
       <h1><%- auction.name %></h1>
       <form action="/auctions/<%= auction.id %>/add-offer" method="post">
         <label for="creator">Nazwa składającego ofertę</label><br />
-        <input type="text" id="creator" name="creator" /><br />
+        <input type="text" id="creator" name="creator" required /><br />
+
         <label for="amount">Wartość oferty</label><br />
-        <input type="number" id="amount" name="amount" /><br /><br />
+        <input type="number" id="amount" name="amount" min="1" required /><br /><br />
+
         <input type="submit" value="Złóż ofertę" />
       </form>
       <div style="margin: 40px 0">
@@ -28,8 +30,13 @@
       h1 {
         padding: 10px 0;
       }
-      label, input, button {
+      label,
+      input,
+      button {
         font-size: large;
+      }
+      input {
+        margin-bottom: 20px;
       }
     </style>
   </body>

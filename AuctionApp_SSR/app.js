@@ -1,12 +1,13 @@
+import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import express from 'express'
 import createError from 'http-errors'
 import logger from 'morgan'
 import path from 'path'
-import bodyParser from 'body-parser'
 
 import { initSequelize } from './database/database-initializer.js'
 import { auctionsRouter } from './routes/auctions-router.js'
+import { createRouter } from './routes/create-router.js'
 import { historyRouter } from './routes/history-router.js'
 import { indexRouter } from './routes/index-router.js'
 
@@ -31,6 +32,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/', indexRouter)
 app.use('/', auctionsRouter)
 app.use('/', historyRouter)
+app.use('/', createRouter)
 
 app.use(function (req, res, next) {
   next(createError(404))

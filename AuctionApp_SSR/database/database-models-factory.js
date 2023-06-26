@@ -1,5 +1,6 @@
 import { Auction } from '../models/auction.js'
 import { Offer } from '../models/offer.js'
+import { sequelize } from './database.js'
 
 /**
  * @param {string} name
@@ -11,14 +12,20 @@ import { Offer } from '../models/offer.js'
  * @returns {Promise<Auction>}
  */
 export async function createAuction(name, description, startDateTime, endDateTime, creator, maxAmount) {
-  return await Auction.create({
-    name,
-    description,
-    startDateTime,
-    endDateTime,
-    creator,
-    maxAmount
-  })
+  return await sequelize.transaction(
+    async (transaction) =>
+      await Auction.create(
+        {
+          name,
+          description,
+          startDateTime,
+          endDateTime,
+          creator,
+          maxAmount
+        },
+        { transaction }
+      )
+  )
 }
 
 /**
@@ -29,10 +36,16 @@ export async function createAuction(name, description, startDateTime, endDateTim
  * @returns {Promise<Offer>}
  */
 export async function createOffer(creator, amount, dateTime, auctionId) {
-  return await Offer.create({
-    creator,
-    amount,
-    dateTime,
-    auctionId
-  })
+  return await sequelize.transaction(
+    async (transaction) =>
+      await Offer.create(
+        {
+          creator,
+          amount,
+          dateTime,
+          auctionId
+        },
+        { transaction }
+      )
+  )
 }

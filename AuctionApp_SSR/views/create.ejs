@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <%- include('partials/head'); %>
+  <body>
+    <%- include('partials/navbar'); %>
+    <div class="center">
+      <% if(message){ %>
+      <h1 color="yellow"><%- message %></h1>
+      <% } %>
+
+      <h1 style="padding: 10px 0">Tworzenie przetargu</h1>
+      <form action="/create" method="post">
+        <label for="name">Nazwa przetargu</label><br />
+        <input type="text" id="name" name="name" class="widerTextInput" required /><br />
+
+        <label for="description">Opis</label><br />
+        <input type="text" id="description" name="description" class="widerTextInput" required /><br />
+
+        <label for="creator">Nazwa składającego ofertę</label><br />
+        <input type="text" id="creator" name="creator" class="widerTextInput" required /><br />
+
+        <label for="startDateTime">Data rozpoczęcia</label><br />
+        <input type="datetime-local" id="startDateTime" name="startDateTime" required /><br />
+
+        <label for="endDateTime">Data rozpoczęcia</label><br />
+        <input type="datetime-local" id="endDateTime" name="endDateTime" required /><br />
+
+        <label for="maxAmount">Maksymalna wartość oferty</label><br />
+        <input type="number" id="maxAmount" name="maxAmount" min="1" required /><br /><br />
+
+        <input type="submit" value="Utwórz przetarg" />
+      </form>
+    </div>
+    <script>
+      const timezoneOffset = new Date().getTimezoneOffset() * 60000
+      const currentDate = new Date(Date.now() - timezoneOffset).toISOString().slice(0, -8)
+
+      const startCalendar = document.getElementById('startDateTime')
+      startCalendar.value = currentDate
+      startCalendar.min = currentDate
+      document.getElementById('endDateTime').min = currentDate
+    </script>
+    <style>
+      h1 {
+        padding: 10px 0;
+      }
+      label,
+      input,
+      button {
+        font-size: large;
+      }
+      input {
+        margin-bottom: 20px;
+      }
+      .widerTextInput {
+        width: 70%;
+      }
+    </style>
+  </body>
+</html>

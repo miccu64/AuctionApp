@@ -1,7 +1,7 @@
 import { Auction } from '../models/auction.js'
 import { Offer } from '../models/offer.js'
-import { sequelize } from './database.js'
 import { createAuction, createOffer } from './database-models-factory.js'
+import { sequelize } from './database.js'
 
 export async function initSequelize() {
   await sequelize.authenticate()
@@ -10,9 +10,6 @@ export async function initSequelize() {
 }
 
 async function initModels() {
-  // TODO: delete drop
-  await sequelize.drop()
-
   const foreignKeyOptions = { foreignKey: 'auctionId', as: 'offers' }
   Auction.hasMany(Offer, foreignKeyOptions)
   Offer.belongsTo(Auction, foreignKeyOptions)
