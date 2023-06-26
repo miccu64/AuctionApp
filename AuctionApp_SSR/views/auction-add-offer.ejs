@@ -16,12 +16,19 @@
         <input type="number" id="amount" name="amount" /><br /><br />
         <input type="submit" value="Złóż ofertę" />
       </form>
+      <div style="margin: 40px 0">
+        <div>
+          <a href="/auctions/<%= auction.id %>/details">
+            <button>Powrót do szczegółów przetargu</button>
+          </a>
+        </div>
+      </div>
     </div>
     <style>
       h1 {
         padding: 10px 0;
       }
-      label, input {
+      label, input, button {
         font-size: large;
       }
     </style>

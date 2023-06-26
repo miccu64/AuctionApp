@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <%- include('partials/head'); %>
+  <body>
+    <div><%- include('partials/navbar'); %></div>
+    <div class="center">
+      <h1 style="padding: 10px 0"><%- auction.name %></h1>
+      <h3>Opis: <%- auction.description %></h3>
+      <h3>Zamawiający: <%- auction.creator %></h3>
+      <h3>Data rozpoczęcia: <%= auction.startDateTime.toLocaleString() %></h3>
+      <h3>Data zakończenia: <%= auction.endDateTime.toLocaleString() %></h3>
+      <h3>Wartość przetargu: <%= auction.maxAmount %></h3>
+      <h3>
+        Status: <% if(isResolved) { %>
+        <span style="color: green">rozstrzygnięty</span>
+        <% } else{ %>
+        <span style="color: red">zakończony bez rozstrzygnięcia</span>
+        <% } %>
+      </h3>
+      <div style="margin: 40px 0">
+        <a href="/history">
+          <button>Powrót do historii przetargów</button>
+        </a>
+      </div>
+
+      <h2 style="margin-top: 20px">Lista złożonych ofert</h2>
+      <table style="width: 100%; margin-top: 20px; margin-bottom: 20px">
+        <tr>
+          <th>Lp</th>
+          <th>Nazwa składającego ofertę</th>
+          <th>Data złożenia oferty</th>
+          <th>Wartość</th>
+        </tr>
+        <% for (var i = 0; i < offers.length; i++) { %>
+        <tr>
+          <td><%= i+1 %></td>
+          <td><%= offers[i].creator %></td>
+          <td><%= offers[i].dateTime.toLocaleString() %></td>
+          <td><%= offers[i].amount %></td>
+        </tr>
+        <% } %>
+      </table>
+    </div>
+  </body>
+  <style>
+    button {
+      font-size: larger;
+    }
+  </style>
+</html>

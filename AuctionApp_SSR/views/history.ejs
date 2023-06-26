@@ -10,6 +10,7 @@
         <th>Tytuł przetargu</th>
         <th>Data zakończenia</th>
         <th>Ilość ofert</th>
+        <th>Budżet przetargu</th>
         <th>Status</th>
       </tr>
       <% for (var i = 0; i < auctions.length; i++) { %>
@@ -20,12 +21,13 @@
         </td>
         <td><%= auctions[i].endDateTime.toLocaleString() %></td>
         <td><%= auctions[i].offers.length %></td>
+        <td><%= auctions[i].maxAmount %></td>
         <td>
           <% if(auctions[i].getDataValue('offers').find(o => o.amount <= auctions[i].getDataValue('maxAmount')) != null)
           { %>
-          <span style="color: green">Rozstrzygnięta</span>
+          <span style="color: green">Rozstrzygnięty</span>
           <% } else{ %>
-          <span style="color: red">Nierozstrzygnięta</span>
+          <span style="color: red">Zakończony bez rozstrzygnięcia</span>
           <% } %>
         </td>
       </tr>

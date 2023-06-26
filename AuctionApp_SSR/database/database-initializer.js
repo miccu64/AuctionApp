@@ -34,6 +34,7 @@ async function initExampleData() {
 
   await createOffer('Maria Janosik', 111.11, new Date(), auction1.getDataValue('id'))
   await createOffer('Andżelika Wojnar', 2221.11, new Date(), auction1.getDataValue('id'))
+  await createOffer('Jan Kupała', 333331.11, new Date(), auction1.getDataValue('id'))
   await createOffer('Maria Janosik', 22111.11, new Date(), auction2.getDataValue('id'))
   await createOffer('Maria Janosik', 421, new Date(), auction2.getDataValue('id'))
 }
