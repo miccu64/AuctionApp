@@ -3,6 +3,7 @@
   <%- include('partials/head'); %>
   <body>
     <div><%- include('partials/navbar'); %></div>
+    <h1 class="center">Zakończone przetargi</h1>
     <table style="width: 100%; margin-top: 20px; margin-bottom: 20px">
       <tr class="center">
         <th>Lp</th>
@@ -19,6 +20,14 @@
         </td>
         <td><%= auctions[i].endDateTime.toLocaleString() %></td>
         <td><%= auctions[i].offers.length %></td>
+        <td>
+          <% if(auctions[i].getDataValue('offers').find(o => o.amount <= auctions[i].getDataValue('maxAmount')) != null)
+          { %>
+          <span style="color: green">Rozstrzygnięta</span>
+          <% } else{ %>
+          <span style="color: red">Nierozstrzygnięta</span>
+          <% } %>
+        </td>
       </tr>
       <% } %>
     </table>

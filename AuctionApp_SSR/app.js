@@ -3,11 +3,12 @@ import express from 'express'
 import createError from 'http-errors'
 import logger from 'morgan'
 import path from 'path'
+import bodyParser from 'body-parser'
 
 import { initSequelize } from './database/database-initializer.js'
-import { auctionsRouter } from './routes/auctions.js'
-import { historyRouter } from './routes/history.js'
-import { indexRouter } from './routes/index.js'
+import { auctionsRouter } from './routes/auctions-router.js'
+import { historyRouter } from './routes/history-router.js'
+import { indexRouter } from './routes/index-router.js'
 
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
@@ -25,6 +26,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use('/', indexRouter)
 app.use('/', auctionsRouter)

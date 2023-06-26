@@ -16,5 +16,6 @@ historyRouter.get('/history', async function (req, res, next) {
     include: { model: Offer, as: 'offers' }
   })
   console.log(auctions)
+  
   res.render('history', { auctions })
 })
