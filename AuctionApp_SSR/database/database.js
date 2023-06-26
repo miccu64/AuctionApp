@@ -1,7 +1,8 @@
 import { Sequelize } from 'sequelize'
 
-export const sequelize = new Sequelize('AuctionApp', 'sa', 'Agilero123!', {
+export const sequelize = new Sequelize('AuctionApp', 'sa', 'Haslo123!', {
   dialect: 'mssql',
+  host: 'database',
   dialectOptions: {
     options: {
       useUTC: false,
