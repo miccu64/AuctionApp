@@ -11,7 +11,7 @@
       <h3>Data zakończenia: <%= auction.endDateTime.toLocaleString() %></h3>
       <h3>Wartość przetargu: <%= auction.maxAmount %></h3>
       <h3>
-        Status: <% if(isResolved) { %>
+        Status: <% if(properOffers.length > 0) { %>
         <span style="color: green">rozstrzygnięty</span>
         <% } else{ %>
         <span style="color: red">zakończony bez rozstrzygnięcia</span>
@@ -31,12 +31,19 @@
           <th>Data złożenia oferty</th>
           <th>Wartość</th>
         </tr>
-        <% for (var i = 0; i < offers.length; i++) { %>
-        <tr>
+        <% for (var i = 0; i < properOffers.length; i++) { %>
+        <tr style="color: <% if(i===0) { %> green <% } else { %> yellow <% } %>">
           <td><%= i+1 %></td>
-          <td><%= offers[i].creator %></td>
-          <td><%= offers[i].dateTime.toLocaleString() %></td>
-          <td><%= offers[i].amount %></td>
+          <td><%= properOffers[i].creator %></td>
+          <td><%= properOffers[i].dateTime.toLocaleString() %></td>
+          <td><%= properOffers[i].amount %></td>
+        </tr>
+        <% } %> <% for (var j = 0; j < otherOffers.length; j++) { %>
+        <tr style="color: red !important">
+          <td><%= i+j+1 %></td>
+          <td><%= otherOffers[j].creator %></td>
+          <td><%= otherOffers[j].dateTime.toLocaleString() %></td>
+          <td><%= otherOffers[j].amount %></td>
         </tr>
         <% } %>
       </table>

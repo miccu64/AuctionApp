@@ -6,7 +6,10 @@ import { sequelize } from './database.js'
 export async function initSequelize() {
   await sequelize.authenticate()
   await initModels()
-  await initExampleData()
+
+  if ((await Auction.count()) === 0) {
+    await initExampleData()
+  }
 }
 
 async function initModels() {

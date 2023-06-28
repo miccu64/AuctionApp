@@ -26,24 +26,13 @@ historyRouter.get('/history/:id/details', async function (req, res, next) {
     include: { model: Offer, as: 'offers' }
   })
   const maxAmount = auction.getDataValue('maxAmount')
-  const offers = (await Offer.findAll({ where: { auctionId: id } })).sort((a, b) => {
-    const aAmount = a.getDataValue('amount')
-    const bAmount = b.getDataValue('amount')
-    const aExceeds = aAmount > maxAmount
-    const bExceeds = bAmount > maxAmount
-    if (aExceeds && bExceeds) {
-      return 0
-    } else if (aExceeds) {
-      return 1
-    } else if (bExceeds) {
-      return -1
-    } else {
-      return bAmount - aAmount
-    }
-  })
-  const isResolved = offers.find((o) => o.getDataValue('amount') <= maxAmount)
+  const offers = (await Offer.findAll({ where: { auctionId: id } })).sort(
+    (a, b) => a.getDataValue('amount') - b.getDataValue('amount')
+  )
+  const properOffers = offers.filter(o => o.getDataValue('amount') <= maxAmount)
+  const otherOffers = offers.filter(o => o.getDataValue('amount') > maxAmount)
   console.log(auction)
   console.log(offers)
 
-  res.render('history-details', { auction, offers, isResolved })
+  res.render('history-details', { auction, properOffers, otherOffers })
 })

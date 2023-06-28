@@ -22,7 +22,8 @@ appPromise.then(function (app) {
       target: `http://localhost:${server.address().port}`,
       ws: true
     },
-    files: ['**/*.css', '**/*.js', '**/*.ejs']
+    files: ['**/*.css', '**/*.js', '**/*.ejs'],
+    open: false
   })
 })
 

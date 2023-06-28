@@ -33,15 +33,20 @@ auctionsRouter.get('/auctions/:id/add-offer', async function (req, res, next) {
 
 auctionsRouter.post('/auctions/:id/add-offer', async function (req, res, next) {
   const auction = await getAuctionFromRequest(req)
-  const creator = req.body.creator
-  const amount = req.body.amount
-
   let message
-  if (!auction || !creator || amount <= 0) {
-    message = 'Nie podano poprawnych danych!'
+
+  if (new Date(auction.getDataValue('endDateTime')) < new Date()) {
+    message = 'Aukcja została już zakończona - nie dodano nowej oferty'
   } else {
-    await createOffer(creator, amount, new Date(), auction.getDataValue('id'))
-    message = 'Poprawnie utworzono ofertę!'
+    const creator = req.body.creator
+    const amount = req.body.amount
+
+    if (!auction || !creator || amount <= 0) {
+      message = 'Nie podano poprawnych danych!'
+    } else {
+      await createOffer(creator, amount, new Date(), auction.getDataValue('id'))
+      message = 'Poprawnie utworzono ofertę!'
+    }
   }
 
   res.render('auction-add-offer', { auction, message })
