@@ -1,5 +1,6 @@
 import express from 'express'
 import { createAuction } from '../database/database-models-factory.js'
+import { getCurrentDateTime } from '../helpers/getCurrentDateTime.js'
 
 export const createRouter = express.Router()
 
@@ -20,7 +21,7 @@ createRouter.post('/create', async function (req, res, next) {
     message = 'Nie podano poprawnych danych!'
   } else if (endDateTime < startDateTime) {
     message = 'Data końcowa nie może być wcześniejsza niż data startowa!'
-  } else if (endDateTime < new Date()) {
+  } else if (endDateTime < getCurrentDateTime()) {
     message = 'Data końcowa nie może być datą z przeszłości!'
   } else {
     await createAuction(name, description, startDateTime, endDateTime, creator, maxAmount)

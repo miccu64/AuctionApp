@@ -1,12 +1,13 @@
 import express from 'express'
 import { Op } from 'sequelize'
 import { createOffer } from '../database/database-models-factory.js'
+import { getCurrentDateTime } from '../helpers/getCurrentDateTime.js'
 import { Auction } from '../models/auction.js'
 
 export const auctionsRouter = express.Router()
 
 auctionsRouter.get('/auctions', async function (req, res, next) {
-  const currentDateTime = new Date()
+  const currentDateTime = getCurrentDateTime()
   const auctions = await Auction.findAll({
     where: {
       endDateTime: {
@@ -27,6 +28,10 @@ auctionsRouter.get('/auctions/:id/details', async function (req, res, next) {
 
 auctionsRouter.get('/auctions/:id/add-offer', async function (req, res, next) {
   const auction = await getAuctionFromRequest(req)
+  let message
+  if (isAuctionInactive(auction)) {
+    message = 'Aukcja została już zakończona!'
+  } 
 
   res.render('auction-add-offer', { auction, message: null })
 })
@@ -35,7 +40,7 @@ auctionsRouter.post('/auctions/:id/add-offer', async function (req, res, next) {
   const auction = await getAuctionFromRequest(req)
   let message
 
-  if (new Date(auction.getDataValue('endDateTime')) < new Date()) {
+  if (isAuctionInactive(auction)) {
     message = 'Aukcja została już zakończona - nie dodano nowej oferty'
   } else {
     const creator = req.body.creator
@@ -44,7 +49,7 @@ auctionsRouter.post('/auctions/:id/add-offer', async function (req, res, next) {
     if (!auction || !creator || amount <= 0) {
       message = 'Nie podano poprawnych danych!'
     } else {
-      await createOffer(creator, amount, new Date(), auction.getDataValue('id'))
+      await createOffer(creator, amount, getCurrentDateTime(), auction.getDataValue('id'))
       message = 'Poprawnie utworzono ofertę!'
     }
   }
@@ -55,4 +60,8 @@ auctionsRouter.post('/auctions/:id/add-offer', async function (req, res, next) {
 async function getAuctionFromRequest(req) {
   const id = req.params.id
   return await Auction.findByPk(id)
+}
+
+function isAuctionInactive(auction) {
+  return new Date(auction.getDataValue('endDateTime')) < getCurrentDateTime()
 }

@@ -1,12 +1,13 @@
 import express from 'express'
 import { Op } from 'sequelize'
+import { getCurrentDateTime } from '../helpers/getCurrentDateTime.js'
 import { Auction } from '../models/auction.js'
 import { Offer } from '../models/offer.js'
 
 export const historyRouter = express.Router()
 
 historyRouter.get('/history', async function (req, res, next) {
-  const currentDateTime = new Date()
+  const currentDateTime = getCurrentDateTime()
   const auctions = await Auction.findAll({
     where: {
       endDateTime: {

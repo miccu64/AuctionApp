@@ -1,3 +1,4 @@
+import { getCurrentDateTime } from '../helpers/getCurrentDateTime.js'
 import { Auction } from '../models/auction.js'
 import { Offer } from '../models/offer.js'
 import { createAuction, createOffer } from './database-models-factory.js'
@@ -22,7 +23,7 @@ async function initModels() {
 }
 
 async function initExampleData() {
-  const auction1 = await createAuction('Test', 'Opis', new Date(), new Date(), 'Jan Kowalski', 22222)
+  const auction1 = await createAuction('Test', 'Opis', getCurrentDateTime(), getCurrentDateTime(), 'Jan Kowalski', 22222)
   const auction2 = await createAuction(
     'Test2',
     'Długi opis Długi opis Długi opis Długi opis Długi opis',
@@ -32,9 +33,9 @@ async function initExampleData() {
     33333
   )
 
-  await createOffer('Maria Janosik', 111.11, new Date(), auction1.getDataValue('id'))
-  await createOffer('Andżelika Wojnar', 2221.11, new Date(), auction1.getDataValue('id'))
-  await createOffer('Jan Kupała', 333331.11, new Date(), auction1.getDataValue('id'))
-  await createOffer('Maria Janosik', 22111.11, new Date(), auction2.getDataValue('id'))
-  await createOffer('Maria Janosik', 421, new Date(), auction2.getDataValue('id'))
+  await createOffer('Maria Janosik', 111.11, getCurrentDateTime(), auction1.getDataValue('id'))
+  await createOffer('Andżelika Wojnar', 2221.11, getCurrentDateTime(), auction1.getDataValue('id'))
+  await createOffer('Jan Kupała', 333331.11, getCurrentDateTime(), auction1.getDataValue('id'))
+  await createOffer('Maria Janosik', 22111.11, getCurrentDateTime(), auction2.getDataValue('id'))
+  await createOffer('Maria Janosik', 421, getCurrentDateTime(), auction2.getDataValue('id'))
 }
