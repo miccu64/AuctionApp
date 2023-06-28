@@ -1,13 +1,12 @@
 import express from 'express'
 import { Op } from 'sequelize'
 import { createOffer } from '../database/database-models-factory.js'
-import { getCurrentDateTime } from '../helpers/getCurrentDateTime.js'
 import { Auction } from '../models/auction.js'
 
 export const auctionsRouter = express.Router()
 
 auctionsRouter.get('/auctions', async function (req, res, next) {
-  const currentDateTime = getCurrentDateTime()
+  const currentDateTime = new Date()
   const auctions = await Auction.findAll({
     where: {
       endDateTime: {
@@ -31,7 +30,7 @@ auctionsRouter.get('/auctions/:id/add-offer', async function (req, res, next) {
   let message
   if (isAuctionInactive(auction)) {
     message = 'Aukcja została już zakończona!'
-  } 
+  }
 
   res.render('auction-add-offer', { auction, message: null })
 })
@@ -49,7 +48,7 @@ auctionsRouter.post('/auctions/:id/add-offer', async function (req, res, next) {
     if (!auction || !creator || amount <= 0) {
       message = 'Nie podano poprawnych danych!'
     } else {
-      await createOffer(creator, amount, getCurrentDateTime(), auction.getDataValue('id'))
+      await createOffer(creator, amount, new Date(), auction.getDataValue('id'))
       message = 'Poprawnie utworzono ofertę!'
     }
   }
@@ -63,5 +62,5 @@ async function getAuctionFromRequest(req) {
 }
 
 function isAuctionInactive(auction) {
-  return new Date(auction.getDataValue('endDateTime')) < getCurrentDateTime()
+  return new Date(auction.getDataValue('endDateTime')) < new Date()
 }

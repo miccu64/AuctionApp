@@ -1,13 +1,12 @@
 import express from 'express'
 import { Op } from 'sequelize'
-import { getCurrentDateTime } from '../helpers/getCurrentDateTime.js'
 import { Auction } from '../models/auction.js'
 import { Offer } from '../models/offer.js'
 
 export const historyRouter = express.Router()
 
 historyRouter.get('/history', async function (req, res, next) {
-  const currentDateTime = getCurrentDateTime()
+  const currentDateTime = new Date()
   const auctions = await Auction.findAll({
     where: {
       endDateTime: {
@@ -16,7 +15,6 @@ historyRouter.get('/history', async function (req, res, next) {
     },
     include: { model: Offer, as: 'offers' }
   })
-  console.log(auctions)
 
   res.render('history', { auctions })
 })
@@ -30,10 +28,8 @@ historyRouter.get('/history/:id/details', async function (req, res, next) {
   const offers = (await Offer.findAll({ where: { auctionId: id } })).sort(
     (a, b) => a.getDataValue('amount') - b.getDataValue('amount')
   )
-  const properOffers = offers.filter(o => o.getDataValue('amount') <= maxAmount)
-  const otherOffers = offers.filter(o => o.getDataValue('amount') > maxAmount)
-  console.log(auction)
-  console.log(offers)
+  const properOffers = offers.filter((o) => o.getDataValue('amount') <= maxAmount)
+  const otherOffers = offers.filter((o) => o.getDataValue('amount') > maxAmount)
 
   res.render('history-details', { auction, properOffers, otherOffers })
 })
