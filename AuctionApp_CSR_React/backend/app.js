@@ -1,14 +1,14 @@
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import express from 'express'
-import createError from 'http-errors'
 import logger from 'morgan'
 import path from 'path'
 
+import { auctionsRouter } from './controllers/auctions-controller.js'
+import { authRouter } from './controllers/auth-controller.js'
+import { createRouter } from './controllers/create-controller.js'
+import { historyRouter } from './controllers/history-controller.js'
 import { initSequelize } from './database/database-initializer.js'
-import { auctionsRouter } from './routes/auctions-router.js'
-import { createRouter } from './routes/create-router.js'
-import { historyRouter } from './routes/history-router.js'
 
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
@@ -25,12 +25,13 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.urlencoded({ extended: true }))
 
+app.use('/', authRouter)
 app.use('/', auctionsRouter)
 app.use('/', historyRouter)
 app.use('/', createRouter)
 
 app.use(function (req, res, next) {
-  next(createError(404))
+  res.status(404).send()
 })
 
 // error handler

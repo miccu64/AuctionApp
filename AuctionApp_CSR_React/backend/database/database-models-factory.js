@@ -1,5 +1,7 @@
 import { Auction } from '../models/auction.js'
 import { Offer } from '../models/offer.js'
+import { User } from '../models/user.js'
+import { encrypt } from '../security/password-utils.js'
 import { sequelize } from './database.js'
 
 /**
@@ -44,6 +46,29 @@ export async function createOffer(creator, amount, dateTime, auctionId) {
           amount,
           dateTime,
           auctionId
+        },
+        { transaction }
+      )
+  )
+}
+
+/**
+ * @param {string} login
+ * @param {string} password
+ * @param {string} fullName
+ * @returns {Promise<User>}
+ */
+export async function createUser(login, password, fullName) {
+  login = login.toLowerCase()
+  const encryptedPassword = encrypt(password)
+console.log(encryptedPassword)
+  return await sequelize.transaction(
+    async (transaction) =>
+      await User.create(
+        {
+          login,
+          password: encryptedPassword,
+          fullName
         },
         { transaction }
       )

@@ -1,13 +1,14 @@
 import { Auction } from '../models/auction.js'
 import { Offer } from '../models/offer.js'
-import { createAuction, createOffer } from './database-models-factory.js'
+import { User } from '../models/user.js'
+import { createAuction, createOffer, createUser } from './database-models-factory.js'
 import { sequelize } from './database.js'
 
 export async function initSequelize() {
   await sequelize.authenticate()
   await initModels()
 
-  if ((await Auction.count()) === 0) {
+  if ((await User.count()) === 0) {
     await initExampleData()
   }
 }
@@ -17,11 +18,14 @@ async function initModels() {
   Auction.hasMany(Offer, foreignKeyOptions)
   Offer.belongsTo(Auction, foreignKeyOptions)
 
+  await User.sync()
   await Auction.sync()
   await Offer.sync()
 }
 
 async function initExampleData() {
+  const user1 = await createUser('1', '1', '1');
+
   const auction1 = await createAuction('Test', 'Opis', new Date(), new Date(), 'Jan Kowalski', 22222)
   const auction2 = await createAuction(
     'Test2',

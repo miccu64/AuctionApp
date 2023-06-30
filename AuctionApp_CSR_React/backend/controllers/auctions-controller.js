@@ -2,6 +2,7 @@ import express from 'express'
 import { Op } from 'sequelize'
 import { createOffer } from '../database/database-models-factory.js'
 import { Auction } from '../models/auction.js'
+import { isAuctionActive } from '../utils/is-auction-active.js'
 
 export const auctionsRouter = express.Router()
 
@@ -21,8 +22,8 @@ auctionsRouter.get('/auctions', async function (req, res, next) {
 
 auctionsRouter.get('/auctions/:id', async function (req, res, next) {
   const auction = await getAuctionFromRequest(req)
-  if (!auction) {
-    res.status(404)
+  if (!auction || !isAuctionActive(auction)) {
+    res.status(404).send()
   } else {
     res.json(auction)
   }
@@ -31,7 +32,7 @@ auctionsRouter.get('/auctions/:id', async function (req, res, next) {
 auctionsRouter.post('/auctions/:id/add-offer', async function (req, res, next) {
   const auction = await getAuctionFromRequest(req)
 
-  if (isAuctionInactive(auction)) {
+  if (!isAuctionActive(auction)) {
     res.status(400).json('Aukcja została już zakończona - nie dodano nowej oferty')
     return
   }
@@ -43,15 +44,13 @@ auctionsRouter.post('/auctions/:id/add-offer', async function (req, res, next) {
     res.status(400).json('Nie podano poprawnych danych!')
   } else {
     await createOffer(creator, amount, new Date(), auction.getDataValue('id'))
-    res.status(201)
+    res.status(201).send()
   }
 })
 
 async function getAuctionFromRequest(req) {
   const id = req.params.id
-  return await Auction.findByPk(id)
-}
-
-function isAuctionInactive(auction) {
-  return new Date(auction.getDataValue('endDateTime')) < new Date()
+  return await Auction.findByPk(id, {
+    attributes: { exclude: ['maxAmount'] }
+  })
 }
