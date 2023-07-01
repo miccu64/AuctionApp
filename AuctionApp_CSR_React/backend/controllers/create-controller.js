@@ -26,7 +26,7 @@ createRouter.post('/create', jwtMiddleware, async function (req, res, next) {
     return res.status(400).json(message)
   }
 
-  const user = User.findByPk(req.userId)
+  const user = await User.findByPk(req.userId)
   await createAuction(name, description, startDateTime, endDateTime, maxAmount, user)
 
   return res.sendStatus(201)

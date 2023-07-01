@@ -42,7 +42,7 @@ auctionsRouter.post('/auctions/:id/add-offer', jwtMiddleware, async function (re
     return res.status(400).json('Nie podano poprawnych danych!')
   }
 
-  const user = User.findByPk(req.userId)
+  const user = await User.findByPk(req.userId)
   await createOffer(amount, new Date(), auction, user)
 
   return res.sendStatus(201)
