@@ -26,10 +26,6 @@ Auction.init(
       type: DataTypes.DATE,
       allowNull: false
     },
-    creator: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
     maxAmount: {
       type: DataTypes.INTEGER,
       allowNull: false

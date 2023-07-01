@@ -5,9 +5,15 @@ export class User extends Model {}
 
 User.init(
   {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
     login: {
       type: DataTypes.STRING,
-      primaryKey: true
+      unique: true,
+      allowNull: false
     },
     password: {
       type: DataTypes.STRING,

@@ -12,6 +12,7 @@ import { initSequelize } from './database/database-initializer.js'
 
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
+import { authenticateToken } from './security/jwt-middleware.js'
 
 const app = express()
 
@@ -26,12 +27,12 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use('/', authRouter)
-app.use('/', auctionsRouter)
-app.use('/', historyRouter)
-app.use('/', createRouter)
+app.use('/', authenticateToken, auctionsRouter)
+app.use('/', authenticateToken, historyRouter)
+app.use('/', authenticateToken, createRouter)
 
 app.use(function (req, res, next) {
-  res.status(404).send()
+  return res.sendStatus(404)
 })
 
 // error handler

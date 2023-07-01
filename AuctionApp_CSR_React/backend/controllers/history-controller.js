@@ -17,7 +17,7 @@ historyRouter.get('/history', async function (req, res, next) {
     include: { model: Offer, as: 'offers' }
   })
 
-  res.json(auctions)
+  return res.json(auctions)
 })
 
 historyRouter.get('/history/:id', async function (req, res, next) {
@@ -27,7 +27,7 @@ historyRouter.get('/history/:id', async function (req, res, next) {
   })
 
   if (isAuctionActive(auction)) {
-    return res.status(404).send()
+    return res.sendStatus(404)
   }
 
   const maxAmount = auction.getDataValue('maxAmount')
@@ -37,5 +37,5 @@ historyRouter.get('/history/:id', async function (req, res, next) {
   const properOffers = offers.filter((o) => o.getDataValue('amount') <= maxAmount)
   const otherOffers = offers.filter((o) => o.getDataValue('amount') > maxAmount)
 
-  res.json({ auction, properOffers, otherOffers })
+  return res.json({ auction, properOffers, otherOffers })
 })

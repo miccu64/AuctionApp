@@ -15,7 +15,7 @@ export function generateJwt(username) {
  */
 export function verifyJwt(token) {
   try {
-    return jwt.verify(token, jwtSecret) != null
+    return jwt.verify(token, jwtSecret, {complete: true})
   } catch {
     return false
   }

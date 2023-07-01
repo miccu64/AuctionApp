@@ -11,22 +11,20 @@ authRouter.post('/login', async function (req, res, next) {
   const password = req.body.password
 
   if (!login || !password) {
-    res.status(400).json('Nie podano loginu i/lub hasła!')
-    return
+    return res.status(400).json('Nie podano loginu i/lub hasła!')
   }
 
   login = login.toLowerCase()
   const user = await User.findByPk(login)
   if (!user) {
-    res.status(401)
-    return
+    return res.sendStatus(401)
   }
 
   if (passwordMatches(user.getDataValue('password'), password)) {
     return res.json(generateJwt(user.getDataValue('login')))
-  } else {
-    return res.status(404).send()
   }
+
+  return res.sendStatus(404)
 })
 
 authRouter.post('/register', async function (req, res, next) {
@@ -35,17 +33,15 @@ authRouter.post('/register', async function (req, res, next) {
   const fullName = req.body.fullName
 
   if (!login || !password || !fullName) {
-    res.status(400).json('Nie podano wszystkich danych')
-    return
+    return res.status(400).json('Nie podano wszystkich danych')
   }
 
   login = login.toLowerCase()
   const user = await User.findByPk(login)
   if (user) {
-    res.status(409).json('Użytkownik o takim loginie już istnieje')
-    return
+    return res.status(409).json('Użytkownik o takim loginie już istnieje')
   }
 
   await createUser(login, password, fullName)
-  return res.status(201).send()
+  return res.sendStatus(201)
 })

@@ -21,10 +21,9 @@ createRouter.post('/create', async function (req, res, next) {
   }
 
   if (message) {
-    res.status(400).json(message)
-    return
+    return res.status(400).json(message)
   }
 
   await createAuction(name, description, startDateTime, endDateTime, creator, maxAmount)
-  res.status(201).send()
+  return res.sendStatus(201)
 })

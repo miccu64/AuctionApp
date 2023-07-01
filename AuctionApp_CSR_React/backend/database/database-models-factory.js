@@ -1,3 +1,4 @@
+import { Model } from 'sequelize'
 import { Auction } from '../models/auction.js'
 import { Offer } from '../models/offer.js'
 import { User } from '../models/user.js'
@@ -9,11 +10,11 @@ import { sequelize } from './database.js'
  * @param {string} description
  * @param {Date} startDateTime
  * @param {Date} endDateTime
- * @param {string} creator
  * @param {number} maxAmount
+ * @param {User} user
  * @returns {Promise<Auction>}
  */
-export async function createAuction(name, description, startDateTime, endDateTime, creator, maxAmount) {
+export async function createAuction(name, description, startDateTime, endDateTime, maxAmount, user) {
   return await sequelize.transaction(
     async (transaction) =>
       await Auction.create(
@@ -22,8 +23,8 @@ export async function createAuction(name, description, startDateTime, endDateTim
           description,
           startDateTime,
           endDateTime,
-          creator,
-          maxAmount
+          maxAmount,
+          userId: getId(user)
         },
         { transaction }
       )
@@ -31,21 +32,21 @@ export async function createAuction(name, description, startDateTime, endDateTim
 }
 
 /**
- * @param {string} creator
  * @param {number} amount
  * @param {Date} dateTime
- * @param {number} auctionId
+ * @param {Auction} auction
+ * @param {User} user
  * @returns {Promise<Offer>}
  */
-export async function createOffer(creator, amount, dateTime, auctionId) {
+export async function createOffer(amount, dateTime, auction, user) {
   return await sequelize.transaction(
     async (transaction) =>
       await Offer.create(
         {
-          creator,
           amount,
           dateTime,
-          auctionId
+          auctionId: getId(auction),
+          userId: getId(user)
         },
         { transaction }
       )
@@ -61,7 +62,7 @@ export async function createOffer(creator, amount, dateTime, auctionId) {
 export async function createUser(login, password, fullName) {
   login = login.toLowerCase()
   const encryptedPassword = encrypt(password)
-console.log(encryptedPassword)
+
   return await sequelize.transaction(
     async (transaction) =>
       await User.create(
@@ -73,4 +74,12 @@ console.log(encryptedPassword)
         { transaction }
       )
   )
+}
+
+/**
+ * @param {Model} model
+ * @returns {number}
+ */
+function getId(model) {
+  return model.getDataValue('id')
 }

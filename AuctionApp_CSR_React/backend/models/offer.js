@@ -10,10 +10,6 @@ Offer.init(
       primaryKey: true,
       autoIncrement: true
     },
-    creator: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
     amount: {
       type: DataTypes.FLOAT,
       allowNull: false

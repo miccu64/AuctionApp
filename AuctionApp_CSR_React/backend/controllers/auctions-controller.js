@@ -17,35 +17,33 @@ auctionsRouter.get('/auctions', async function (req, res, next) {
     order: [['startDateTime', 'ASC']]
   })
 
-  res.json(auctions)
+  return res.json(auctions)
 })
 
 auctionsRouter.get('/auctions/:id', async function (req, res, next) {
   const auction = await getAuctionFromRequest(req)
   if (!auction || !isAuctionActive(auction)) {
-    res.status(404).send()
-  } else {
-    res.json(auction)
+    return res.sendStatus(404)
   }
+
+  return res.json(auction)
 })
 
 auctionsRouter.post('/auctions/:id/add-offer', async function (req, res, next) {
   const auction = await getAuctionFromRequest(req)
 
   if (!isAuctionActive(auction)) {
-    res.status(400).json('Aukcja została już zakończona - nie dodano nowej oferty')
-    return
+    return res.status(400).json('Aukcja została już zakończona - nie dodano nowej oferty')
   }
 
-  const creator = req.body.creator
   const amount = req.body.amount
 
-  if (!auction || !creator || amount <= 0) {
-    res.status(400).json('Nie podano poprawnych danych!')
-  } else {
-    await createOffer(creator, amount, new Date(), auction.getDataValue('id'))
-    res.status(201).send()
+  if (!auction || amount <= 0) {
+    return res.status(400).json('Nie podano poprawnych danych!')
   }
+
+  await createOffer(amount, new Date(), auction)
+  return res.sendStatus(201)
 })
 
 async function getAuctionFromRequest(req) {
