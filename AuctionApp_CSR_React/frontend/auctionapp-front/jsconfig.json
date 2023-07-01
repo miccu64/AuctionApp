@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "module": "Node16",
+    "allowSyntheticDefaultImports": true,
+    "checkJs": true,
+    "jsx": "react-jsx"
+  },
+  "exclude": ["node_modules", "bower_components", "jspm_packages", "tmp", "temp"],
+  "moduleResolution": "node"
+}
