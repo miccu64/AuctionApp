@@ -13,5 +13,5 @@ export function encrypt(phrase) {
  * @param {string} plainPassword
  */
 export function passwordMatches(encryptedPassword, plainPassword) {
-  return hmacSHA512(plainPassword, passwordSecret) === encryptedPassword
+  return hmacSHA512(plainPassword, passwordSecret).toString() === encryptedPassword
 }

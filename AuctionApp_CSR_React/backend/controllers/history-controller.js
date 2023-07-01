@@ -2,7 +2,7 @@ import express from 'express'
 import { Op } from 'sequelize'
 import { Auction } from '../models/auction.js'
 import { Offer } from '../models/offer.js'
-import { isAuctionActive } from '../utils/is-auction-active.js'
+import { isAuctionActive } from '../common/is-auction-active.js'
 
 export const historyRouter = express.Router()
 

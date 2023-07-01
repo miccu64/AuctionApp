@@ -15,16 +15,16 @@ authRouter.post('/login', async function (req, res, next) {
   }
 
   login = login.toLowerCase()
-  const user = await User.findByPk(login)
-  if (!user) {
+  const user = await User.findOne({
+    where: {
+      login
+    }
+  })
+  if (!user || !passwordMatches(user.getDataValue('password'), password)) {
     return res.sendStatus(401)
   }
 
-  if (passwordMatches(user.getDataValue('password'), password)) {
-    return res.json(generateJwt(user.getDataValue('login')))
-  }
-
-  return res.sendStatus(404)
+  return res.json(generateJwt(user.getDataValue('id')))
 })
 
 authRouter.post('/register', async function (req, res, next) {
@@ -37,9 +37,13 @@ authRouter.post('/register', async function (req, res, next) {
   }
 
   login = login.toLowerCase()
-  const user = await User.findByPk(login)
+  const user = await User.findOne({
+    where: {
+      login
+    }
+  })
   if (user) {
-    return res.status(409).json('Użytkownik o takim loginie już istnieje')
+    return res.status(409).json('Użytkownik o takim loginie już istnieje - podaj inny')
   }
 
   await createUser(login, password, fullName)

@@ -2,11 +2,11 @@ import jwt from 'jsonwebtoken'
 import { jwtSecret } from './secrets.js'
 
 /**
- * @param {string} username
+ * @param {number} userId
  * @returns {string}
  */
-export function generateJwt(username) {
-  return jwt.sign(username, jwtSecret, { expiresIn: '1800s', algorithm: ['HS256'] })
+export function generateJwt(userId) {
+  return jwt.sign({ userId }, jwtSecret, { expiresIn: '1h' })
 }
 
 /**
@@ -15,8 +15,8 @@ export function generateJwt(username) {
  */
 export function verifyJwt(token) {
   try {
-    return jwt.verify(token, jwtSecret, {complete: true})
-  } catch {
-    return false
+    return jwt.verify(token, jwtSecret).userId
+  } catch (e) {
+    return null
   }
 }

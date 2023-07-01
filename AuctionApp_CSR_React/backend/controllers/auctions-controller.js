@@ -2,7 +2,9 @@ import express from 'express'
 import { Op } from 'sequelize'
 import { createOffer } from '../database/database-models-factory.js'
 import { Auction } from '../models/auction.js'
-import { isAuctionActive } from '../utils/is-auction-active.js'
+import { jwtMiddleware } from '../security/jwt-middleware.js'
+import { isAuctionActive } from '../common/is-auction-active.js'
+import { User } from '../models/user.js'
 
 export const auctionsRouter = express.Router()
 
@@ -29,20 +31,20 @@ auctionsRouter.get('/auctions/:id', async function (req, res, next) {
   return res.json(auction)
 })
 
-auctionsRouter.post('/auctions/:id/add-offer', async function (req, res, next) {
+auctionsRouter.post('/auctions/:id/add-offer', jwtMiddleware, async function (req, res, next) {
   const auction = await getAuctionFromRequest(req)
-
   if (!isAuctionActive(auction)) {
     return res.status(400).json('Aukcja została już zakończona - nie dodano nowej oferty')
   }
 
   const amount = req.body.amount
-
   if (!auction || amount <= 0) {
     return res.status(400).json('Nie podano poprawnych danych!')
   }
 
-  await createOffer(amount, new Date(), auction)
+  const user = User.findByPk(req.userId)
+  await createOffer(amount, new Date(), auction, user)
+
   return res.sendStatus(201)
 })
 

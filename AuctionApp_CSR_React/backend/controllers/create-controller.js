@@ -1,9 +1,11 @@
 import express from 'express'
 import { createAuction } from '../database/database-models-factory.js'
+import { User } from '../models/user.js'
+import { jwtMiddleware } from '../security/jwt-middleware.js'
 
 export const createRouter = express.Router()
 
-createRouter.post('/create', async function (req, res, next) {
+createRouter.post('/create', jwtMiddleware, async function (req, res, next) {
   const name = req.body.name
   const description = req.body.description
   const creator = req.body.creator
@@ -24,6 +26,8 @@ createRouter.post('/create', async function (req, res, next) {
     return res.status(400).json(message)
   }
 
-  await createAuction(name, description, startDateTime, endDateTime, creator, maxAmount)
+  const user = User.findByPk(req.userId)
+  await createAuction(name, description, startDateTime, endDateTime, maxAmount, user)
+
   return res.sendStatus(201)
 })
