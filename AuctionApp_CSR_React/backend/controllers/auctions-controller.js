@@ -1,10 +1,10 @@
 import express from 'express'
 import { Op } from 'sequelize'
+import { isAuctionActive } from '../common/is-auction-active.js'
 import { createOffer } from '../database/database-models-factory.js'
 import { Auction } from '../models/auction.js'
-import { jwtMiddleware } from '../security/jwt-middleware.js'
-import { isAuctionActive } from '../common/is-auction-active.js'
 import { User } from '../models/user.js'
+import { jwtMiddleware } from '../security/jwt-middleware.js'
 
 export const auctionsRouter = express.Router()
 
@@ -16,7 +16,9 @@ auctionsRouter.get('/auctions', async function (req, res, next) {
         [Op.gte]: currentDateTime
       }
     },
-    order: [['startDateTime', 'ASC']]
+    attributes: auctionAttributes,
+    order: [['startDateTime', 'ASC']],
+    include: includeUser
   })
 
   return res.json(auctions)
@@ -51,6 +53,15 @@ auctionsRouter.post('/auctions/:id/add-offer', jwtMiddleware, async function (re
 async function getAuctionFromRequest(req) {
   const id = req.params.id
   return await Auction.findByPk(id, {
-    attributes: { exclude: ['maxAmount'] }
+    attributes: auctionAttributes,
+    include: includeUser
   })
 }
+
+const includeUser = {
+  model: User,
+  as: 'user',
+  attributes: ['id', 'fullName']
+}
+
+const auctionAttributes = { exclude: ['maxAmount', 'userId'] }

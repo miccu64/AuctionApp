@@ -4,10 +4,7 @@ import { toast } from 'react-toastify'
 export const axiosClient = axios.create({ baseURL: 'http://localhost:3001/' })
 
 axiosClient.interceptors.request.use(
-  (config) => {
-    console.log(config.data)
-    return config
-  },
+  (config) => config,
   (error) => onError(error)
 )
 
@@ -23,5 +20,6 @@ function onError(error) {
       ? `Status: ${error.response.status}, szczegóły: ${error.response.data}`
       : `Szczegóły: ${error.message}`)
   toast.error(errorMessage)
+
   return Promise.reject(error)
 }

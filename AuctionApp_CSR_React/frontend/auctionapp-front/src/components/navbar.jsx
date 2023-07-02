@@ -10,6 +10,13 @@ import React from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
+const pages = [
+  ['/', 'Strona główna'],
+  ['/active-auctions', 'Lista przetargów'],
+  ['/history', 'Zakończone przetargi'],
+  ['/create', 'Dodaj przetarg']
+]
+
 export default function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null)
 
@@ -27,12 +34,6 @@ export default function Navbar() {
     toast.success('Poprawnie wylogowano!')
   }
 
-  const pages = [
-    ['/', 'Strona główna'],
-    ['/auctions', 'Lista przetargów'],
-    ['/history', 'Zakończone przetargi'],
-    ['/create', 'Dodaj przetarg']
-  ]
   const jwtToken = localStorage.getItem('JwtToken')
 
   return (

@@ -5,79 +5,77 @@ import { BrowserRouter, MemoryRouter, Route, Link as RouterLink, Routes } from '
 import { StaticRouter } from 'react-router-dom/server'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import './App.css'
+import ActiveAuctions from './components/active-auctions'
+import Home from './components/home'
+import Login from './components/login'
 import Navbar from './components/navbar'
-import Home from './pages/home'
-import Login from './pages/login'
-import Register from './pages/register'
+import Register from './components/register'
 
 const LinkBehavior = React.forwardRef((props, ref) => {
-  const { href, ...other } = props;
+  const { href, ...other } = props
   // Map href (MUI) -> to (react-router)
-  return <RouterLink data-testid="custom-link" ref={ref} to={href} {...other} />;
-});
+  return <RouterLink data-testid="custom-link" ref={ref} to={href} {...other} />
+})
 
 LinkBehavior.propTypes = {
   href: PropTypes.oneOfType([
     PropTypes.shape({
       hash: PropTypes.string,
       pathname: PropTypes.string,
-      search: PropTypes.string,
+      search: PropTypes.string
     }),
-    PropTypes.string,
-  ]).isRequired,
-};
+    PropTypes.string
+  ]).isRequired
+}
 
 function Router(props) {
-  const { children } = props;
+  const { children } = props
   if (typeof window === 'undefined') {
-    return <StaticRouter location="/">{children}</StaticRouter>;
+    return <StaticRouter location="/">{children}</StaticRouter>
   }
-  return <MemoryRouter>{children}</MemoryRouter>;
+  return <MemoryRouter>{children}</MemoryRouter>
 }
 
 Router.propTypes = {
-  children: PropTypes.node,
-};
+  children: PropTypes.node
+}
 
 const theme = createTheme({
   components: {
     MuiLink: {
       defaultProps: {
-        component: LinkBehavior,
-      },
+        component: LinkBehavior
+      }
     },
     MuiButtonBase: {
       defaultProps: {
-        LinkComponent: LinkBehavior,
-      },
+        LinkComponent: LinkBehavior
+      }
     },
     MuiMenuItem: {
       defaultProps: {
-        component: LinkBehavior,
-      },
-    },
-  },
-});
+        component: LinkBehavior
+      }
+    }
+  }
+})
 
 function App() {
   return (
-    <div className="App">
-      <ThemeProvider theme={theme}>
-        <div>
-          <ToastContainer position="top-center" pauseOnFocusLoss={false} />
-        </div>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Navbar />}>
-              <Route index element={<Home />} />
-              <Route path="login" element={<Login />} />
-              <Route path="register" element={<Register />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
-    </div>
+    <ThemeProvider theme={theme}>
+      <ToastContainer position="top-center" pauseOnFocusLoss={false} />
+
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Navbar />}>
+            <Route index element={<Home />} />
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+            <Route path="active-auctions" element={<ActiveAuctions />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   )
 }
 

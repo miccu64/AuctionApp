@@ -10,20 +10,19 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { axiosClient } from '../connectivity/axios-client'
+import { axiosClient } from '../utils/axios-client'
 
-export default function Login() {
+export default function Register() {
   const navigate = useNavigate()
 
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
 
-    axiosClient.post('login', data).then(
-      (response) => {
-        localStorage.setItem('JwtToken', response.data)
-        toast.success('Pomyślnie zalogowano!')
-        navigate('/auctions')
+    axiosClient.post('register', data).then(
+      () => {
+        toast.success('Poprawnie zarejestrowano')
+        navigate('/login')
       },
       () => {}
     )
@@ -43,36 +42,42 @@ export default function Login() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Logowanie
+          Rejestracja
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="login"
-            label="Login"
-            name="login"
-            autoComplete="login"
-            autoFocus
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Hasło"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField autoComplete="login" name="login" required fullWidth id="login" label="Login" autoFocus />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                autoComplete="full-name"
+                name="fullName"
+                required
+                fullWidth
+                id="fullName"
+                label="Nazwa instytucji / Przedstawiciel"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                name="password"
+                label="Hasło"
+                type="password"
+                id="password"
+                autoComplete="new-password"
+              />
+            </Grid>
+          </Grid>
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-            Zaloguj
+            Zarejestruj
           </Button>
-          <Grid container>
+          <Grid container justifyContent="flex-end">
             <Grid item xs>
-              <Link href="/register" variant="body2">
-                {'Nie posiadasz konta? Zarejestruj się'}
+              <Link href="/login" variant="body2">
+                Posiadasz już konto? Zaloguj się
               </Link>
             </Grid>
           </Grid>
