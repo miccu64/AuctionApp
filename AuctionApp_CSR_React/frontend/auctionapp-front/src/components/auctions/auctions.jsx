@@ -1,7 +1,8 @@
 import Box from '@mui/material/Box'
 import { DataGrid } from '@mui/x-data-grid'
 import { useEffect, useState } from 'react'
-import { axiosClient } from '../utils/axios-client'
+import { useNavigate } from 'react-router-dom'
+import { axiosClient } from '../../utils/axios-client'
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -40,8 +41,13 @@ const columns = [
   }
 ]
 
-export default function ActiveAuctions() {
+export default function Auctions() {
   const [auctions, setAuctions] = useState([])
+
+  const navigate = useNavigate()
+  const onRowClick = (params) => {
+    navigate(`/auctions/${params.id}/details`)
+  }
 
   useEffect(() => {
     axiosClient.get('auctions').then(
@@ -66,6 +72,7 @@ export default function ActiveAuctions() {
           }
         }}
         pageSizeOptions={[10]}
+        onRowClick={onRowClick}
       />
     </Box>
   )

@@ -17,10 +17,10 @@ export default function Home() {
       <Typography component="h1" variant="h2" align="center" color="text.primary" gutterBottom>
         AuctionApp
       </Typography>
-      <Typography variant="h5" align="center" color="text.secondary" component="p">
+      <Typography variant="h5" align="center" color="text.primary" component="p">
         Aplikacja służy do przeglądania przetargów oraz brania w nich udziału.
       </Typography>
-      <Typography variant="h5" align="left" color="text.secondary" component="p" sx={{ mt: 3 }}>
+      <Typography variant="h5" align="left" color="text.primary" component="p" sx={{ mt: 3 }}>
         Możliwości:
       </Typography>
       <List sx={{ listStyleType: 'disc', pl: 4 }}>

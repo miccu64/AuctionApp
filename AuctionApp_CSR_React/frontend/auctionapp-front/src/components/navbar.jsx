@@ -12,7 +12,7 @@ import { toast } from 'react-toastify'
 
 const pages = [
   ['/', 'Strona główna'],
-  ['/active-auctions', 'Lista przetargów'],
+  ['/auctions', 'Lista przetargów'],
   ['/history', 'Zakończone przetargi'],
   ['/create', 'Dodaj przetarg']
 ]

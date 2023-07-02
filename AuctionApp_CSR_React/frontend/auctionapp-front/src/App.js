@@ -5,7 +5,8 @@ import { BrowserRouter, MemoryRouter, Route, Link as RouterLink, Routes } from '
 import { StaticRouter } from 'react-router-dom/server'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import ActiveAuctions from './components/active-auctions'
+import Auctions from './components/auctions/auctions'
+import AuctionsDetails from './components/auctions/auctions-details'
 import Home from './components/home'
 import Login from './components/login'
 import Navbar from './components/navbar'
@@ -71,7 +72,8 @@ function App() {
             <Route index element={<Home />} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
-            <Route path="active-auctions" element={<ActiveAuctions />} />
+            <Route path="auctions" element={<Auctions />} />
+            <Route path="auctions/:id/details" element={<AuctionsDetails />} />
           </Route>
         </Routes>
       </BrowserRouter>
