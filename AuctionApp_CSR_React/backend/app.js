@@ -1,7 +1,9 @@
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
 import express from 'express'
 import logger from 'morgan'
+import multer from 'multer'
 import path from 'path'
 
 import { auctionsRouter } from './controllers/auctions-controller.js'
@@ -24,6 +26,8 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(multer().array())
+app.use(cors())
 
 app.use('/', authRouter)
 app.use('/', auctionsRouter)

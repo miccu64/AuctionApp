@@ -4,11 +4,11 @@ import Typography from '@mui/material/Typography'
 
 export default function Home() {
   const abilities = [
-    'przeglądanie szczegółów przetargów',
-    'wyświetlanie zakończonych przetargów',
-    'dodawanie nowych przetargów',
-    'branie udziału w przetargu',
-    'logowanie i rejestracja',
+    'przeglądanie szczegółów przetargów,',
+    'wyświetlanie zakończonych przetargów,',
+    'dodawanie nowych przetargów,',
+    'branie udziału w przetargu,',
+    'logowanie i rejestracja,',
     'podgląd własnych przetargów i aukcji.'
   ]
 

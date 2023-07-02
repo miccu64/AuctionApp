@@ -8,15 +8,24 @@ import Grid from '@mui/material/Grid'
 import Link from '@mui/material/Link'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { axiosClient } from '../connectivity/axios-client'
 
 export default function Register() {
+  const navigate = useNavigate()
+
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    console.log({
-      email: data.get('email'),
-      password: data.get('password')
-    })
+
+    axiosClient.post('register', data).then(
+      () => {
+        toast.success('Poprawnie zarejestrowano')
+        navigate('/login')
+      },
+      () => {}
+    )
   }
 
   return (
@@ -55,7 +64,7 @@ export default function Register() {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="Hasło"
                 type="password"
                 id="password"
                 autoComplete="new-password"

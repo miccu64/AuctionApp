@@ -7,11 +7,12 @@ import { passwordMatches } from '../security/password-utils.js'
 export const authRouter = express.Router()
 
 authRouter.post('/login', async function (req, res, next) {
+  console.log(req.body)
   let login = req.body.login?.toLowerCase()
   const password = req.body.password
 
   if (!login || !password) {
-    return res.status(400).json('Nie podano loginu i/lub hasła!')
+    return res.status(400).json('Nie podano loginu i/lub hasła')
   }
 
   const user = await User.findOne({
@@ -20,7 +21,7 @@ authRouter.post('/login', async function (req, res, next) {
     }
   })
   if (!user || !passwordMatches(user.getDataValue('password'), password)) {
-    return res.sendStatus(401)
+    return res.status(401).json('Niepoprawny login lub hasło')
   }
 
   return res.json(generateJwt(user.getDataValue('id')))
@@ -43,7 +44,7 @@ authRouter.post('/register', async function (req, res, next) {
   if (user) {
     return res.status(409).json('Użytkownik o takim loginie już istnieje - podaj inny')
   }
-  
+
   await createUser(login, password, fullName)
   return res.sendStatus(201)
 })

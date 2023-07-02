@@ -22,7 +22,7 @@ export default function Login() {
     axiosClient.post('login', data).then(
       (response) => {
         localStorage.setItem('JwtToken', response.data)
-        toast('Pomyślnie zalogowano!')
+        toast.success('Pomyślnie zalogowano!')
         navigate('/auctions')
       },
       () => {}

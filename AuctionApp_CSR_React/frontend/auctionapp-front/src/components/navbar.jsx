@@ -1,5 +1,5 @@
 import MenuIcon from '@mui/icons-material/Menu'
-import { Container, Menu, MenuItem } from '@mui/material'
+import { Container, Link, Menu, MenuItem } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -7,16 +7,24 @@ import IconButton from '@mui/material/IconButton'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import React from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 export default function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null)
+
+  const navigate = useNavigate()
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget)
   }
   const handleCloseNavMenu = () => {
     setAnchorElNav(null)
+  }
+  const onLogoutClicked = () => {
+    localStorage.clear()
+    navigate('/')
+    toast.success('Poprawnie wylogowano!')
   }
 
   const pages = [
@@ -25,16 +33,16 @@ export default function Navbar() {
     ['/history', 'Zakończone przetargi'],
     ['/create', 'Dodaj przetarg']
   ]
+  const jwtToken = localStorage.getItem('JwtToken')
 
   return (
     <>
       <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <Typography
+            <Link
               variant="h6"
               noWrap
-              component="a"
               href="/"
               sx={{
                 mr: 2,
@@ -46,7 +54,7 @@ export default function Navbar() {
                 textDecoration: 'none'
               }}>
               <img src="favicon-white.ico" alt="logo" />
-            </Typography>
+            </Link>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
               <IconButton
@@ -77,7 +85,6 @@ export default function Navbar() {
                 }}>
                 {pages.map((page) => (
                   <MenuItem
-                    component="a"
                     href={page[0]}
                     key={page[0]}
                     sx={{ fontWeight: 'bold', color: 'white', display: 'block' }}
@@ -87,10 +94,9 @@ export default function Navbar() {
                 ))}
               </Menu>
             </Box>
-            <Typography
+            <Link
               variant="h5"
               noWrap
-              component="a"
               href="/"
               sx={{
                 mr: 2,
@@ -103,7 +109,7 @@ export default function Navbar() {
                 textDecoration: 'none'
               }}>
               <img src="favicon-white.ico" alt="logo" />
-            </Typography>
+            </Link>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               {pages.map((page) => (
                 <Button
@@ -115,9 +121,15 @@ export default function Navbar() {
                 </Button>
               ))}
             </Box>
-            <Button href="/login" sx={{ fontWeight: 'bold', color: 'white', marginLeft: 'auto' }}>
-              Logowanie
-            </Button>
+            {!jwtToken ? (
+              <Button href="/login" sx={{ fontWeight: 'bold', color: 'white', marginLeft: 'auto' }}>
+                Logowanie
+              </Button>
+            ) : (
+              <Button onClick={onLogoutClicked} sx={{ fontWeight: 'bold', color: 'white', marginLeft: 'auto' }}>
+                Wyloguj
+              </Button>
+            )}
           </Toolbar>
         </Container>
       </AppBar>
