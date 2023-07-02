@@ -8,15 +8,25 @@ import Grid from '@mui/material/Grid'
 import Link from '@mui/material/Link'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { axiosClient } from '../connectivity/axios-client'
 
 export default function Login() {
+  const navigate = useNavigate()
+
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    console.log({
-      login: data.get('login'),
-      password: data.get('password')
-    })
+
+    axiosClient.post('login', data).then(
+      (response) => {
+        localStorage.setItem('JwtToken', response.data)
+        toast('Pomyślnie zalogowano!')
+        navigate('/auctions')
+      },
+      () => {}
+    )
   }
 
   return (
