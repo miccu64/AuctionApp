@@ -1,24 +1,21 @@
-import { Container, List, Typography } from '@mui/material'
+import { Button, Container, Stack, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { axiosClient } from '../../utils/axios-client'
+import TitleWithData from '../reusable/title-with-data'
 
 export default function AuctionsDetails() {
   const [auction, setAuction] = useState(null)
 
   const { id } = useParams()
-
   useEffect(() => {
     axiosClient.get(`auctions/${id}`).then(
       (response) => {
         setAuction(response.data)
-        console.log(response.data)
       },
       () => {}
     )
   }, [id])
-
-  const titleSyle={ marginRight: 3 }
 
   return (
     <>
@@ -27,25 +24,22 @@ export default function AuctionsDetails() {
           <Typography variant="h3" align="center" color="text.primary" gutterBottom>
             {auction.name}
           </Typography>
-          <Typography variant="h5" color="text.primary" component="span" sx={titleSyle}>
-            <b>Opis:</b>
-          </Typography>
-
-          <Typography variant="h5" color="text.secondary" component="span">
-            {auction.description}
-          </Typography>
-          <Typography variant="h5" align="left" color="text.primary" component="p">
-            Możliwości:
-          </Typography>
-          <List sx={{ listStyleType: 'disc', pl: 4 }}>
-            {/* {abilities.map((a) => (
-          <ListItem key={a} sx={{ display: 'list-item' }}>
-            <Typography variant="h6" color="text.secondary" component="p">
-              {a}
-            </Typography>
-          </ListItem>
-        ))} */}
-          </List>
+          <TitleWithData title={'Opis'} data={auction.description}></TitleWithData>
+          <TitleWithData title={'Nazwa twórcy'} data={auction.user.fullName}></TitleWithData>
+          <TitleWithData
+            title={'Czas rozpoczęcia'}
+            data={new Date(auction.startDateTime).toLocaleString()}></TitleWithData>
+          <TitleWithData
+            title={'Czas zakończenia'}
+            data={new Date(auction.endDateTime).toLocaleString()}></TitleWithData>
+          <Stack sx={{ pt: 4 }} direction="row" spacing={2} justifyContent="center">
+            <Button type="button" variant="contained" href={`auctions/${id}/add-offer`}>
+              Złóż ofertę
+            </Button>
+            <Button type="button" variant="contained" href="/auctions">
+              Powrót do listy
+            </Button>
+          </Stack>
         </Container>
       ) : null}
     </>
