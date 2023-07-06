@@ -1,10 +1,15 @@
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { getJwtToken } from './common-functions'
 
 export const axiosClient = axios.create({ baseURL: 'http://localhost:3001/' })
 
 axiosClient.interceptors.request.use(
-  (config) => config,
+  (config) => {
+    const jwtToken = getJwtToken()
+    config.headers.setAuthorization(jwtToken)
+    return config
+  },
   (error) => onError(error)
 )
 

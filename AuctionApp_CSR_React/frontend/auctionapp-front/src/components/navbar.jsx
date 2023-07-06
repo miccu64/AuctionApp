@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography'
 import React from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { isLogged } from '../utils/common-functions'
 
 const pages = [
   ['/', 'Strona główna'],
@@ -33,8 +34,7 @@ export default function Navbar() {
     navigate('/')
     toast.success('Poprawnie wylogowano!')
   }
-
-  const jwtToken = localStorage.getItem('JwtToken')
+  const logged = isLogged()
 
   return (
     <>
@@ -122,7 +122,7 @@ export default function Navbar() {
                 </Button>
               ))}
             </Box>
-            {!jwtToken ? (
+            {!logged ? (
               <Button href="/login" sx={{ fontWeight: 'bold', color: 'white', marginLeft: 'auto' }}>
                 Logowanie
               </Button>
