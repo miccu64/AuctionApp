@@ -1,14 +1,14 @@
-import { Box, Button, Container, CssBaseline, Grid, Stack, TextField, Typography } from '@mui/material'
+import { Box, Button, Container, CssBaseline, Stack, TextField, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import { axiosClient } from '../../utils/axios-client'
-import TitleWithData from '../reusable/title-with-data'
+import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { isLogged } from '../../utils/common-functions'
+import { axiosClient } from '../../utils/axios-client'
+import { isLogged } from '../../utils/jwt-utils'
+import TitleWithData from '../reusable/title-with-data'
 
 export default function AuctionsDetails() {
   const [auction, setAuction] = useState(null)
-  const [inputValue, setInputValue] = useState(undefined);
+  const [inputValue, setInputValue] = useState('')
 
   const { id } = useParams()
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function AuctionsDetails() {
     axiosClient.post(`auctions/${id}/add-offer`, data).then(
       () => {
         toast.success('Pomyślnie dodano ofertę!')
-        setInputValue(undefined)
+        setInputValue('')
       },
       () => {}
     )
@@ -88,6 +88,7 @@ export default function AuctionsDetails() {
                   autoFocus
                   InputProps={{ inputProps: { min: '1', step: '1' } }}
                   value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
                 />
                 <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
                   Dodaj ofertę

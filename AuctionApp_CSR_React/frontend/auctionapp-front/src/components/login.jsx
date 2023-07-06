@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { axiosClient } from '../utils/axios-client'
-import { saveToken } from '../utils/common-functions'
+import { saveJwtToken } from '../utils/jwt-utils'
 
 export default function Login() {
   const navigate = useNavigate()
@@ -22,7 +22,7 @@ export default function Login() {
 
     axiosClient.post('login', data).then(
       (response) => {
-        saveToken(response.data)
+        saveJwtToken(response.data)
         toast.success('Pomyślnie zalogowano!')
         navigate('/auctions')
       },

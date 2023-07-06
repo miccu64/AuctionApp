@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography'
 import React from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { isLogged } from '../utils/common-functions'
+import { isLogged } from '../utils/jwt-utils'
 
 const pages = [
   ['/', 'Strona główna'],
