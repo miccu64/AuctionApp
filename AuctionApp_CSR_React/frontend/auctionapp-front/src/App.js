@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Auctions from './components/auctions/auctions'
 import AuctionsDetails from './components/auctions/auctions-details'
+import CreateAuction from './components/create-auction'
 import Home from './components/home'
 import Login from './components/login'
 import Navbar from './components/navbar'
@@ -74,6 +75,7 @@ function App() {
             <Route path="register" element={<Register />} />
             <Route path="auctions" element={<Auctions />} />
             <Route path="auctions/:id/details" element={<AuctionsDetails />} />
+            <Route path="create" element={<CreateAuction />} />
           </Route>
         </Routes>
       </BrowserRouter>

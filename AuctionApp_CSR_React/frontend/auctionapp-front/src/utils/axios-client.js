@@ -28,7 +28,7 @@ function onError(error) {
 
   if (error.response.status === 401) {
     removeJwtToken()
-    window.location.href = '/login'
+    toast.error('Zaloguj się, aby wykonać tą akcję')
   }
 
   return Promise.reject(error)
