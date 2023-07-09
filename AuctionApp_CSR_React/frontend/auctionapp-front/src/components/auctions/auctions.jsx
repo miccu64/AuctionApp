@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { axiosClient } from '../../utils/axios-client'
 import { getUserId } from '../../utils/jwt-utils'
-import { ConnectingAirportsOutlined } from '@mui/icons-material'
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 70 },

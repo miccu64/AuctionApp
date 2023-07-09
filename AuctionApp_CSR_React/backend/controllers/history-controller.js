@@ -24,7 +24,7 @@ historyRouter.get('/history', async function (req, res, next) {
 historyRouter.get('/history/:id', async function (req, res, next) {
   const id = req.params.id
   const auction = await Auction.findByPk(id, {
-    include: { model: Offer, as: 'auctionOffers' }
+    include: includeUser
   })
 
   if (isAuctionActive(auction)) {
@@ -32,7 +32,7 @@ historyRouter.get('/history/:id', async function (req, res, next) {
   }
 
   const maxAmount = auction.getDataValue('maxAmount')
-  const offers = (await Offer.findAll({ where: { auctionId: id } })).sort(
+  const offers = (await Offer.findAll({ where: { auctionId: id }, include: includeUser })).sort(
     (a, b) => a.getDataValue('amount') - b.getDataValue('amount')
   )
   const properOffers = offers.filter((o) => o.getDataValue('amount') <= maxAmount)

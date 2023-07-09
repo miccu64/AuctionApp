@@ -10,6 +10,7 @@ import Auctions from './components/auctions/auctions'
 import AuctionsDetails from './components/auctions/auctions-details'
 import CreateAuction from './components/create-auction'
 import History from './components/history/history'
+import HistoryDetails from './components/history/history-details'
 import Home from './components/home'
 import Login from './components/login'
 import Navbar from './components/navbar'
@@ -79,6 +80,7 @@ function App() {
             <Route path="auctions/:id/details" element={<AuctionsDetails />} />
             <Route path="create" element={<CreateAuction />} />
             <Route path="history" element={<History />} />
+            <Route path="history/:id/details" element={<HistoryDetails />} />
           </Route>
         </Routes>
       </BrowserRouter>
