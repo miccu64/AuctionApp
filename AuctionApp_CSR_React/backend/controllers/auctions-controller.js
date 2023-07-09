@@ -45,6 +45,9 @@ auctionsRouter.post('/auctions/:id/add-offer', jwtMiddleware, async function (re
   }
 
   const user = await User.findByPk(req.userId)
+  if (auction.getDataValue('userId') === req.userId) {
+    return res.status(400).json('Nie możesz brać udziału we własnym przetargu')
+  }
   await createOffer(amount, new Date(), auction, user)
 
   return res.sendStatus(201)
@@ -64,4 +67,4 @@ const includeUser = {
   attributes: ['id', 'fullName']
 }
 
-const auctionAttributes = { exclude: ['maxAmount', 'userId'] }
+const auctionAttributes = { exclude: ['maxAmount'] }

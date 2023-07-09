@@ -5,9 +5,11 @@ import { BrowserRouter, MemoryRouter, Route, Link as RouterLink, Routes } from '
 import { StaticRouter } from 'react-router-dom/server'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import './App.css'
 import Auctions from './components/auctions/auctions'
 import AuctionsDetails from './components/auctions/auctions-details'
 import CreateAuction from './components/create-auction'
+import History from './components/history/history'
 import Home from './components/home'
 import Login from './components/login'
 import Navbar from './components/navbar'
@@ -65,7 +67,7 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <ToastContainer position="top-center" pauseOnFocusLoss={false} />
+      <ToastContainer position="top-right" pauseOnFocusLoss={false} />
 
       <BrowserRouter>
         <Routes>
@@ -76,6 +78,7 @@ function App() {
             <Route path="auctions" element={<Auctions />} />
             <Route path="auctions/:id/details" element={<AuctionsDetails />} />
             <Route path="create" element={<CreateAuction />} />
+            <Route path="history" element={<History />} />
           </Route>
         </Routes>
       </BrowserRouter>

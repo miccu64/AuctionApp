@@ -3,8 +3,6 @@ import { DataGrid } from '@mui/x-data-grid'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { axiosClient } from '../../utils/axios-client'
-import { getUserId } from '../../utils/jwt-utils'
-import { ConnectingAirportsOutlined } from '@mui/icons-material'
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -40,14 +38,27 @@ const columns = [
     type: 'dateTime',
     width: 180,
     valueGetter: ({ value }) => new Date(value)
+  },
+  {
+    field: 'auctionOffers',
+    headerName: 'Ilość ofert',
+    type: 'number',
+    width: 80,
+    valueGetter: ({ value }) => value.length
+  },
+  {
+    field: 'maxAmount',
+    headerName: 'Maks. wartość',
+    width: 120,
+    valueGetter: ({ value }) => value.toString() + ' zł'
   }
 ]
 
-export default function Auctions() {
+export default function History() {
   const [auctions, setAuctions] = useState([])
 
   useEffect(() => {
-    axiosClient.get('auctions').then(
+    axiosClient.get('history').then(
       (response) => {
         setAuctions(response.data)
         console.log(response.data)
@@ -58,11 +69,10 @@ export default function Auctions() {
 
   const navigate = useNavigate()
   const onRowClick = (params) => {
-    navigate(`/auctions/${params.id}/details`)
+    navigate(`/history/${params.id}/details`)
   }
-  const userId = getUserId()
   const colourRow = (params) => {
-    return params.row.userId.toString() === userId?.toString() ? 'green-row' : ''
+    return params.row.auctionOffers?.some((a) => a.amount <= params.row.maxAmount) ? 'green-row' : 'red-row'
   }
 
   return (
@@ -77,7 +87,7 @@ export default function Auctions() {
             }
           }
         }}
-        pageSizeOptions={[5, 10, 15, 20, 50, 100]}
+        pageSizeOptions={[5, 10, 20, 50]}
         onRowClick={onRowClick}
         getRowClassName={colourRow}
       />

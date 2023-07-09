@@ -84,7 +84,7 @@ export default function CreateAuction() {
               required
               fullWidth
               id="maxAmount"
-              label="Wartość oferty"
+              label="Maks. wartość oferty [zł]"
               name="maxAmount"
               type="number"
               autoComplete="maxAmount"

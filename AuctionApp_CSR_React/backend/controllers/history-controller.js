@@ -1,8 +1,9 @@
 import express from 'express'
 import { Op } from 'sequelize'
+import { isAuctionActive } from '../common/is-auction-active.js'
 import { Auction } from '../models/auction.js'
 import { Offer } from '../models/offer.js'
-import { isAuctionActive } from '../common/is-auction-active.js'
+import { User } from '../models/user.js'
 
 export const historyRouter = express.Router()
 
@@ -14,7 +15,7 @@ historyRouter.get('/history', async function (req, res, next) {
         [Op.lt]: currentDateTime
       }
     },
-    include: { model: Offer, as: 'offers' }
+    include: [{ model: Offer, as: 'auctionOffers', attributes: ['amount'] }, includeUser]
   })
 
   return res.json(auctions)
@@ -23,7 +24,7 @@ historyRouter.get('/history', async function (req, res, next) {
 historyRouter.get('/history/:id', async function (req, res, next) {
   const id = req.params.id
   const auction = await Auction.findByPk(id, {
-    include: { model: Offer, as: 'offers' }
+    include: { model: Offer, as: 'auctionOffers' }
   })
 
   if (isAuctionActive(auction)) {
@@ -39,3 +40,9 @@ historyRouter.get('/history/:id', async function (req, res, next) {
 
   return res.json({ auction, properOffers, otherOffers })
 })
+
+const includeUser = {
+  model: User,
+  as: 'user',
+  attributes: ['id', 'fullName']
+}
