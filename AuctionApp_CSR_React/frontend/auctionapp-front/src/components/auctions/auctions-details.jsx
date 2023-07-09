@@ -31,9 +31,9 @@ export default function AuctionsDetails() {
     }
 
     const data = new FormData(event.currentTarget)
-    axiosClient.post(`auctions/${id}/add-offer`, data).then(
-      () => {
-        toast.success('Pomyślnie dodano ofertę!')
+    axiosClient.put(`auctions/${id}/add-offer`, data).then(
+      (response) => {
+        toast.success(response.data)
         setInputValue('')
       },
       () => {}

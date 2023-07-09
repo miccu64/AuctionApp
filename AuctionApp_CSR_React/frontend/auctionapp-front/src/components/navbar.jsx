@@ -9,10 +9,9 @@ import Typography from '@mui/material/Typography'
 import React from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { isLogged } from '../utils/jwt-utils'
+import { isLogged, removeJwtToken } from '../utils/jwt-utils'
 
 const pages = [
-  ['/', 'Strona główna'],
   ['/auctions', 'Lista przetargów'],
   ['/history', 'Zakończone przetargi'],
   ['/create', 'Dodaj przetarg']
@@ -30,7 +29,7 @@ export default function Navbar() {
     setAnchorElNav(null)
   }
   const onLogoutClicked = () => {
-    localStorage.clear()
+    removeJwtToken()
     navigate('/')
     toast.success('Poprawnie wylogowano!')
   }

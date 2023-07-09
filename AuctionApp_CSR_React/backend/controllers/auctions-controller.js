@@ -3,6 +3,7 @@ import { Op } from 'sequelize'
 import { isAuctionActive } from '../common/is-auction-active.js'
 import { createOffer } from '../database/database-models-factory.js'
 import { Auction } from '../models/auction.js'
+import { Offer } from '../models/offer.js'
 import { User } from '../models/user.js'
 import { jwtMiddleware } from '../security/jwt-middleware.js'
 
@@ -33,7 +34,7 @@ auctionsRouter.get('/auctions/:id', async function (req, res, next) {
   return res.json(auction)
 })
 
-auctionsRouter.post('/auctions/:id/add-offer', jwtMiddleware, async function (req, res, next) {
+auctionsRouter.put('/auctions/:id/add-offer', jwtMiddleware, async function (req, res, next) {
   const auction = await getAuctionFromRequest(req)
   if (!isAuctionActive(auction)) {
     return res.status(400).json('Aukcja została już zakończona - nie dodano nowej oferty')
@@ -48,9 +49,18 @@ auctionsRouter.post('/auctions/:id/add-offer', jwtMiddleware, async function (re
   if (auction.getDataValue('userId') === req.userId) {
     return res.status(400).json('Nie możesz brać udziału we własnym przetargu')
   }
-  await createOffer(amount, new Date(), auction, user)
 
-  return res.sendStatus(201)
+  const existingOffer = await Offer.findOne({ where: { auctionId: auction.getDataValue('id'), userId: req.userId } })
+  if (!existingOffer) {
+    await createOffer(amount, new Date(), auction, user)
+
+    return res.status(201).json('Pomyślnie utworzono ofertę')
+  } else {
+    existingOffer.setAttributes({ amount, dateTime: new Date() })
+    await existingOffer.save()
+
+    return res.status(200).json('Składałeś już ofertę - jej wartość została zastąpiona nową wartością')
+  }
 })
 
 async function getAuctionFromRequest(req) {

@@ -40,6 +40,10 @@ export default function HistoryDetails() {
               title={'Czas zakończenia'}
               data={new Date(auction.endDateTime).toLocaleString()}></TitleWithData>
             <TitleWithData title={'Ilość ofert'} data={properOffers.length + otherOffers.length}></TitleWithData>
+            <TitleWithData data={`${auction.maxAmount} zł`} title={'Wartość przetargu'}></TitleWithData>
+          </Container>
+
+          <Container sx={{ mt: 2 }}>
             <TitleWithData
               dataSx={{ color: properOffers.length > 0 ? 'green' : 'red' }}
               title={'Status'}
@@ -53,12 +57,12 @@ export default function HistoryDetails() {
               </>
             ) : null}
 
-            <Stack sx={{ pt: 4 }} direction="row" spacing={2} justifyContent="center">
-              <Button type="button" variant="contained" href="/history" fullWidth>
-                Powrót do listy zakończonych przetargów
-              </Button>
-            </Stack>
+            <Button type="button" variant="contained" href="/history" fullWidth sx={{ mt: 3 }}>
+              Powrót do listy zakończonych przetargów
+            </Button>
+          </Container>
 
+          <Container>
             <HistoryOfferDataGrid offers={properOffers} title={'Poprawne oferty'}></HistoryOfferDataGrid>
             <HistoryOfferDataGrid
               offers={otherOffers}
