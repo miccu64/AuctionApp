@@ -1,6 +1,6 @@
 import { createUser, getUserByLogin, trySignInUser } from '../services/user-service.js'
 
-export async function signInUser(req, res, next) {
+export async function signInUser(req, res) {
   let login = req.body.login?.toLowerCase()
   const password = req.body.password
 
@@ -12,7 +12,7 @@ export async function signInUser(req, res, next) {
   return res.json(jwtToken)
 }
 
-export async function registerUser(req, res, next) {
+export async function registerUser(req, res) {
   let login = req.body.login?.toLowerCase()
   const password = req.body.password
   const fullName = req.body.fullName

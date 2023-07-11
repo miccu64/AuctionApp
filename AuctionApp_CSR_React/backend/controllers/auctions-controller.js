@@ -3,13 +3,13 @@ import { createAuction, getAllAuctionsSortedAsc, getAuctionById } from '../servi
 import { createOffer } from '../services/offer-service.js'
 import { getUserById } from '../services/user-service.js'
 
-export async function getAuctions(req, res, next) {
+export async function getAuctions(req, res) {
   const auctions = await getAllAuctionsSortedAsc()
 
   return res.json(auctions)
 }
 
-export async function getAuction(req, res, next) {
+export async function getAuction(req, res) {
   const auctionId = req.params.id
   const auction = await getAuctionById(auctionId)
   if (!auction) {
@@ -19,7 +19,7 @@ export async function getAuction(req, res, next) {
   return res.json(auction)
 }
 
-export async function putOffer(req, res, next) {
+export async function putOffer(req, res) {
   const auctionId = req.params.id
   const auction = await getAuctionById(auctionId)
   const amount = req.body.amount
@@ -47,7 +47,7 @@ export async function putOffer(req, res, next) {
   }
 }
 
-export async function createNewAuction(req, res, next) {
+export async function createNewAuction(req, res) {
   const name = req.body.name
   const description = req.body.description
   const endDateTime = new Date(req.body.endDateTime)

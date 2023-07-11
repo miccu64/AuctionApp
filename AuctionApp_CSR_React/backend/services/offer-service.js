@@ -33,6 +33,16 @@ export function getOffersByAuctionId(auctionId) {
   return Offer.findAll({ where: { auctionId }, include: includeUser })
 }
 
+export async function getUserOffers(userId) {
+  return Offer.findAll({
+    where: { userId },
+    include: {
+      model: Auction,
+      as: 'auction'
+    }
+  })
+}
+
 const includeUser = {
   model: User,
   as: 'user',

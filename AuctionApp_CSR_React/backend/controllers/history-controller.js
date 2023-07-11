@@ -1,13 +1,13 @@
 import { getAllHistoricalAuctions, getHistoricalAuctionById } from '../services/history-service.js'
 import { getOffersByAuctionId } from '../services/offer-service.js'
 
-export async function getHistoricalAuctions(req, res, next) {
+export async function getHistoricalAuctions(req, res) {
   const auctions = await getAllHistoricalAuctions()
 
   return res.json(auctions)
 }
 
-export async function getHistoricalAuction(req, res, next) {
+export async function getHistoricalAuction(req, res) {
   const id = req.params.id
   const auction = await getHistoricalAuctionById(id)
 

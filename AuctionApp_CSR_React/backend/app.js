@@ -34,12 +34,12 @@ app.use('/', auctionsRouter)
 app.use('/', historyRouter)
 app.use('/', userRouter)
 
-app.use(function (req, res, next) {
+app.use(function (req, res) {
   return res.sendStatus(404)
 })
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function (err, req, res) {
   res.locals.message = err.message
   res.locals.error = req.app.get('env') === 'development' ? err : {}
 

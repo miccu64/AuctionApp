@@ -5,7 +5,7 @@ import { createServer } from 'http'
 import { appPromise } from '../app.js'
 
 const debugLogger = debug('auctionapp-ssr:server')
-const port = normalizePort(process.env.PORT || '3001')
+const port = normalizePort('3001')
 let server
 
 appPromise.then(function (app) {

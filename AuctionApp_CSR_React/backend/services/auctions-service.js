@@ -65,11 +65,11 @@ export async function getAuctionById(id) {
 }
 
 /**
- * @param {number} id
+ * @param {number} userId
  * @returns {Promise<Auction[]>}
  */
-export function getAuctionsByUserId(id) {
-  return Auction.findAll({ where: { userId: id } })
+export function getAuctionsCreatedByUser(userId) {
+  return Auction.findAll({ where: { userId } })
 }
 
 const includeUser = {

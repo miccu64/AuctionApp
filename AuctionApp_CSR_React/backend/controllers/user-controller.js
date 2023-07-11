@@ -1,24 +1,13 @@
-import { Auction } from '../models/auction.js'
-import { Offer } from '../models/offer.js'
-import { getAuctionsByUserId } from '../services/auctions-service.js'
+import { getAuctionsCreatedByUser } from '../services/auctions-service.js'
 
-export async function getUserAuctions(req, res, next) {
-  const auctions = await getAuctionsByUserId(req.userId)
+export async function getUserAuctions(req, res) {
+  const auctions = await getAuctionsCreatedByUser(req.userId)
 
   return res.json(auctions)
 }
 
-export async function getUserOffers(req, res, next) {
-  const offers = await Offer.findAll({ where: { userId: req.userId } })
-  const auctionIds = offers.map((o) => o.getDataValue('auctionId'))
-  const auctions = Auction.findAll({
-    where: {
-      id: { in: auctionIds }
-    },
-    attributes: {
-      exclude: ['maxAmount']
-    }
-  })
+export async function getUserOffers(req, res) {
+  const offers = getUserOffers(req.userId)
 
-  return res.json(auctions)
+  return res.json(offers)
 }
