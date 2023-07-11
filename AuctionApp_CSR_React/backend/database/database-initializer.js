@@ -1,7 +1,9 @@
 import { Auction } from '../models/auction.js'
 import { Offer } from '../models/offer.js'
 import { User } from '../models/user.js'
-import { createAuction, createOffer, createUser } from './database-models-factory.js'
+import { createAuction } from '../services/auctions-service.js'
+import { createOffer } from '../services/offer-service.js'
+import { createUser } from '../services/user-service.js'
 import { sequelize } from './database.js'
 
 export async function initSequelize() {

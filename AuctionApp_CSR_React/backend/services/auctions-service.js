@@ -1,6 +1,33 @@
 import { Op } from 'sequelize'
+import { sequelize } from '../database/database.js'
 import { Auction } from '../models/auction.js'
 import { User } from '../models/user.js'
+
+/**
+ * @param {string} name
+ * @param {string} description
+ * @param {Date} startDateTime
+ * @param {Date} endDateTime
+ * @param {number} maxAmount
+ * @param {User} user
+ * @returns {Promise<Auction>}
+ */
+export async function createAuction(name, description, startDateTime, endDateTime, maxAmount, user) {
+  return await sequelize.transaction(
+    async (transaction) =>
+      await Auction.create(
+        {
+          name,
+          description,
+          startDateTime,
+          endDateTime,
+          maxAmount,
+          userId: user.getDataValue('id')
+        },
+        { transaction }
+      )
+  )
+}
 
 /**
  * @returns {Promise<Auction[]>}

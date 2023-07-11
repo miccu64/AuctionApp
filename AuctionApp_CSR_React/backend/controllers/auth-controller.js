@@ -1,5 +1,4 @@
-import { createUser } from '../database/database-models-factory.js'
-import { getUserByLogin as getUserByLogin, trySignInUser } from '../services/user-service.js'
+import { createUser, getUserByLogin, trySignInUser } from '../services/user-service.js'
 
 export async function signInUser(req, res, next) {
   let login = req.body.login?.toLowerCase()

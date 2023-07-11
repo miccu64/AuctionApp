@@ -1,6 +1,6 @@
-import { createAuction, createOffer } from '../database/database-models-factory.js'
 import { Offer } from '../models/offer.js'
-import { getAllAuctionsSortedAsc, getAuctionById } from '../services/auctions-service.js'
+import { createAuction, getAllAuctionsSortedAsc, getAuctionById } from '../services/auctions-service.js'
+import { createOffer } from '../services/offer-service.js'
 import { getUserById } from '../services/user-service.js'
 
 export async function getAuctions(req, res, next) {
