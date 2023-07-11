@@ -1,45 +1,24 @@
-import { Op } from 'sequelize'
-import { isAuctionActive } from '../common/is-auction-active.js'
-import { Auction } from '../models/auction.js'
-import { Offer } from '../models/offer.js'
-import { User } from '../models/user.js'
+import { getAllHistoricalAuctions, getHistoricalAuctionById } from '../services/history-service.js'
+import { getOffersByAuctionId } from '../services/offer-service.js'
 
 export async function getHistoricalAuctions(req, res, next) {
-  const currentDateTime = new Date()
-  const auctions = await Auction.findAll({
-    where: {
-      endDateTime: {
-        [Op.lt]: currentDateTime
-      }
-    },
-    include: [{ model: Offer, as: 'auctionOffers', attributes: ['amount'] }, includeUser]
-  })
+  const auctions = await getAllHistoricalAuctions()
 
   return res.json(auctions)
 }
 
 export async function getHistoricalAuction(req, res, next) {
   const id = req.params.id
-  const auction = await Auction.findByPk(id, {
-    include: includeUser
-  })
+  const auction = await getHistoricalAuctionById(id)
 
-  if (isAuctionActive(auction)) {
+  if (!auction) {
     return res.sendStatus(404)
   }
 
   const maxAmount = auction.getDataValue('maxAmount')
-  const offers = (await Offer.findAll({ where: { auctionId: id }, include: includeUser })).sort(
-    (a, b) => a.getDataValue('amount') - b.getDataValue('amount')
-  )
+  const offers = (await getOffersByAuctionId(id)).sort((a, b) => a.getDataValue('amount') - b.getDataValue('amount'))
   const properOffers = offers.filter((o) => o.getDataValue('amount') <= maxAmount)
   const otherOffers = offers.filter((o) => o.getDataValue('amount') > maxAmount)
 
   return res.json({ auction, properOffers, otherOffers })
-}
-
-const includeUser = {
-  model: User,
-  as: 'user',
-  attributes: ['id', 'fullName']
 }

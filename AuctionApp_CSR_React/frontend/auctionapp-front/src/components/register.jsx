@@ -19,7 +19,7 @@ export default function Register() {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
 
-    axiosClient.post('register', data).then(
+    axiosClient.post('auth/register', data).then(
       () => {
         toast.success('Poprawnie zarejestrowano')
         navigate('/login')

@@ -1,29 +1,18 @@
-import { Op } from 'sequelize'
-import { isAuctionActive } from '../common/is-auction-active.js'
 import { createAuction, createOffer } from '../database/database-models-factory.js'
-import { Auction } from '../models/auction.js'
 import { Offer } from '../models/offer.js'
-import { User } from '../models/user.js'
+import { getAllAuctionsSortedAsc, getAuctionById } from '../services/auctions-service.js'
+import { getUserById } from '../services/user-service.js'
 
 export async function getAuctions(req, res, next) {
-  const currentDateTime = new Date()
-  const auctions = await Auction.findAll({
-    where: {
-      endDateTime: {
-        [Op.gte]: currentDateTime
-      }
-    },
-    attributes: auctionAttributes,
-    order: [['startDateTime', 'ASC']],
-    include: includeUser
-  })
+  const auctions = await getAllAuctionsSortedAsc()
 
   return res.json(auctions)
 }
 
-export async function getAuctionById(req, res, next) {
-  const auction = await getAuctionFromRequest(req)
-  if (!auction || !isAuctionActive(auction)) {
+export async function getAuction(req, res, next) {
+  const auctionId = req.params.id
+  const auction = await getAuctionById(auctionId)
+  if (!auction) {
     return res.sendStatus(404)
   }
 
@@ -31,22 +20,21 @@ export async function getAuctionById(req, res, next) {
 }
 
 export async function putOffer(req, res, next) {
-  const auction = await getAuctionFromRequest(req)
-  if (!isAuctionActive(auction)) {
-    return res.status(400).json('Aukcja została już zakończona - nie dodano nowej oferty')
-  }
-
+  const auctionId = req.params.id
+  const auction = await getAuctionById(auctionId)
   const amount = req.body.amount
+
   if (!auction || amount <= 0) {
-    return res.status(400).json('Nie podano poprawnych danych!')
+    return res.status(400).json('Nie podano poprawnych danych')
   }
 
-  const user = await User.findByPk(req.userId)
-  if (auction.getDataValue('userId') === req.userId) {
+  const userId = req.userId
+  const user = await getUserById(userId)
+  if (auction.getDataValue('userId') === userId) {
     return res.status(400).json('Nie możesz brać udziału we własnym przetargu')
   }
 
-  const existingOffer = await Offer.findOne({ where: { auctionId: auction.getDataValue('id'), userId: req.userId } })
+  const existingOffer = await Offer.findOne({ where: { auctionId: auction.getDataValue('id'), userId: userId } })
   if (!existingOffer) {
     await createOffer(amount, new Date(), auction, user)
 
@@ -59,7 +47,7 @@ export async function putOffer(req, res, next) {
   }
 }
 
-export async function createNewAuction (req, res, next) {
+export async function createNewAuction(req, res, next) {
   const name = req.body.name
   const description = req.body.description
   const endDateTime = new Date(req.body.endDateTime)
@@ -76,24 +64,8 @@ export async function createNewAuction (req, res, next) {
     return res.status(400).json(message)
   }
 
-  const user = await User.findByPk(req.userId)
+  const user = await getUserById(req.userId)
   const auction = await createAuction(name, description, new Date(), endDateTime, maxAmount, user)
 
   return res.status(201).json(auction.getDataValue('id'))
 }
-
-async function getAuctionFromRequest(req) {
-  const id = req.params.id
-  return await Auction.findByPk(id, {
-    attributes: auctionAttributes,
-    include: includeUser
-  })
-}
-
-const includeUser = {
-  model: User,
-  as: 'user',
-  attributes: ['id', 'fullName']
-}
-
-const auctionAttributes = { exclude: ['maxAmount'] }

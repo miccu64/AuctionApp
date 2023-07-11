@@ -1,27 +1,16 @@
 import { createUser } from '../database/database-models-factory.js'
-import { User } from '../models/user.js'
-import { generateJwt } from '../security/jwt-utils.js'
-import { passwordMatches } from '../security/password-utils.js'
+import { getUserByLogin as getUserByLogin, trySignInUser } from '../services/user-service.js'
 
 export async function signInUser(req, res, next) {
-  console.log(req.body)
   let login = req.body.login?.toLowerCase()
   const password = req.body.password
 
-  if (!login || !password) {
-    return res.status(400).json('Nie podano loginu i/lub hasła')
+  const jwtToken = await trySignInUser(login, password)
+  if (!jwtToken) {
+    return res.status(400).json('Niepoprawny login lub hasło')
   }
 
-  const user = await User.findOne({
-    where: {
-      login
-    }
-  })
-  if (!user || !passwordMatches(user.getDataValue('password'), password)) {
-    return res.status(401).json('Niepoprawny login lub hasło')
-  }
-
-  return res.json(generateJwt(user.getDataValue('id')))
+  return res.json(jwtToken)
 }
 
 export async function registerUser(req, res, next) {
@@ -33,11 +22,7 @@ export async function registerUser(req, res, next) {
     return res.status(400).json('Nie podano wszystkich danych')
   }
 
-  const user = await User.findOne({
-    where: {
-      login
-    }
-  })
+  const user = await getUserByLogin(login)
   if (user) {
     return res.status(409).json('Użytkownik o takim loginie już istnieje - podaj inny')
   }

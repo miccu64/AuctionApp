@@ -25,7 +25,7 @@ export default function CreateAuction() {
       return
     }
 
-    axiosClient.post(`create`, data).then(
+    axiosClient.post(`auctions/create`, data).then(
       (response) => {
         toast.success('Pomyślnie dodano przetarg!')
         navigate(`/auctions/${response.data}/details`)

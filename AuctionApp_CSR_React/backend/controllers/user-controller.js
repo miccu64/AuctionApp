@@ -1,8 +1,9 @@
 import { Auction } from '../models/auction.js'
 import { Offer } from '../models/offer.js'
+import { getAuctionsByUserId } from '../services/auctions-service.js'
 
 export async function getUserAuctions(req, res, next) {
-  const auctions = await Auction.findAll({ where: { userId: req.userId } })
+  const auctions = await getAuctionsByUserId(req.userId)
 
   return res.json(auctions)
 }

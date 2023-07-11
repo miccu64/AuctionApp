@@ -20,7 +20,7 @@ export default function Login() {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
 
-    axiosClient.post('login', data).then(
+    axiosClient.post('auth/login', data).then(
       (response) => {
         saveJwtToken(response.data)
         toast.success('Pomyślnie zalogowano!')
