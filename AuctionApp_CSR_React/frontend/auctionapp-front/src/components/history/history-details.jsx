@@ -1,4 +1,4 @@
-import { Button, Container, Stack, Typography } from '@mui/material'
+import { Button, Container, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { axiosClient } from '../../utils/axios-client'
@@ -7,8 +7,8 @@ import TitleWithData from '../reusable/title-with-data'
 
 export default function HistoryDetails() {
   const [auction, setAuction] = useState(null)
-  const [properOffers, setProperOffers] = useState(null)
-  const [otherOffers, setOtherOffers] = useState(null)
+  const [properOffers, setProperOffers] = useState([])
+  const [otherOffers, setOtherOffers] = useState([])
 
   const { id } = useParams()
   useEffect(() => {

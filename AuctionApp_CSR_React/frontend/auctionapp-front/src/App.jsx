@@ -15,6 +15,7 @@ import Home from './components/home'
 import Login from './components/login'
 import Navbar from './components/navbar'
 import Register from './components/register'
+import UserAuctionsOffers from './components/user/user-auctions-offers'
 
 const LinkBehavior = React.forwardRef((props, ref) => {
   const { href, ...other } = props
@@ -65,7 +66,7 @@ const theme = createTheme({
   }
 })
 
-function App() {
+export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <ToastContainer position="top-right" pauseOnFocusLoss={false} />
@@ -81,11 +82,10 @@ function App() {
             <Route path="create" element={<CreateAuction />} />
             <Route path="history" element={<History />} />
             <Route path="history/:id/details" element={<HistoryDetails />} />
+            <Route path="user" element={<UserAuctionsOffers />} />
           </Route>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
   )
 }
-
-export default App

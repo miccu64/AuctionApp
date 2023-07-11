@@ -33,12 +33,17 @@ export function getOffersByAuctionId(auctionId) {
   return Offer.findAll({ where: { auctionId }, include: includeUser })
 }
 
-export async function getUserOffers(userId) {
+/**
+ * @param {number} userId
+ * @returns {Promise<Offer[]>}
+ */
+export async function getUserOffersWithAuctions(userId) {
   return Offer.findAll({
     where: { userId },
     include: {
       model: Auction,
-      as: 'auction'
+      as: 'auction',
+      attributes: { exclude: ['maxAmount'] }
     }
   })
 }

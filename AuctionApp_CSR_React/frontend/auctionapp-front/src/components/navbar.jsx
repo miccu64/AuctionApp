@@ -11,12 +11,6 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { isLogged, removeJwtToken } from '../utils/jwt-utils'
 
-const pages = [
-  ['/auctions', 'Lista przetargów'],
-  ['/history', 'Zakończone przetargi'],
-  ['/create', 'Dodaj przetarg']
-]
-
 export default function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null)
 
@@ -34,6 +28,15 @@ export default function Navbar() {
     toast.success('Poprawnie wylogowano!')
   }
   const logged = isLogged()
+
+  const pages = [
+    ['/auctions', 'Lista przetargów'],
+    ['/history', 'Zakończone przetargi'],
+    ['/create', 'Dodaj przetarg']
+  ]
+  if (logged) {
+    pages.push(['/user', 'Moje aukcje i oferty'])
+  }
 
   return (
     <>
