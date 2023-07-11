@@ -1,12 +1,9 @@
-import express from 'express'
 import { createUser } from '../database/database-models-factory.js'
 import { User } from '../models/user.js'
 import { generateJwt } from '../security/jwt-utils.js'
 import { passwordMatches } from '../security/password-utils.js'
 
-export const authRouter = express.Router()
-
-authRouter.post('/login', async function (req, res, next) {
+export async function signInUser(req, res, next) {
   console.log(req.body)
   let login = req.body.login?.toLowerCase()
   const password = req.body.password
@@ -25,9 +22,9 @@ authRouter.post('/login', async function (req, res, next) {
   }
 
   return res.json(generateJwt(user.getDataValue('id')))
-})
+}
 
-authRouter.post('/register', async function (req, res, next) {
+export async function registerUser(req, res, next) {
   let login = req.body.login?.toLowerCase()
   const password = req.body.password
   const fullName = req.body.fullName
@@ -47,4 +44,4 @@ authRouter.post('/register', async function (req, res, next) {
 
   await createUser(login, password, fullName)
   return res.sendStatus(201)
-})
+}

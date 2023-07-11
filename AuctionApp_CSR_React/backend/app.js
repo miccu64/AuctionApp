@@ -6,14 +6,14 @@ import logger from 'morgan'
 import multer from 'multer'
 import path from 'path'
 
-import { auctionsRouter } from './controllers/auctions-controller.js'
-import { authRouter } from './controllers/auth-controller.js'
-import { createRouter } from './controllers/create-controller.js'
-import { historyRouter } from './controllers/history-controller.js'
-import { initSequelize } from './database/database-initializer.js'
-
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
+
+import { initSequelize } from './database/database-initializer.js'
+import { auctionsRouter } from './routes/auctions-router.js'
+import { authRouter } from './routes/auth-router.js'
+import { historyRouter } from './routes/history-router.js'
+import { userRouter } from './routes/user-router.js'
 
 const app = express()
 
@@ -32,7 +32,7 @@ app.use(cors())
 app.use('/', authRouter)
 app.use('/', auctionsRouter)
 app.use('/', historyRouter)
-app.use('/', createRouter)
+app.use('/', userRouter)
 
 app.use(function (req, res, next) {
   return res.sendStatus(404)

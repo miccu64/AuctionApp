@@ -1,13 +1,10 @@
-import express from 'express'
 import { Op } from 'sequelize'
 import { isAuctionActive } from '../common/is-auction-active.js'
 import { Auction } from '../models/auction.js'
 import { Offer } from '../models/offer.js'
 import { User } from '../models/user.js'
 
-export const historyRouter = express.Router()
-
-historyRouter.get('/history', async function (req, res, next) {
+export async function getHistoricalAuctions(req, res, next) {
   const currentDateTime = new Date()
   const auctions = await Auction.findAll({
     where: {
@@ -19,9 +16,9 @@ historyRouter.get('/history', async function (req, res, next) {
   })
 
   return res.json(auctions)
-})
+}
 
-historyRouter.get('/history/:id', async function (req, res, next) {
+export async function getHistoricalAuction(req, res, next) {
   const id = req.params.id
   const auction = await Auction.findByPk(id, {
     include: includeUser
@@ -39,7 +36,7 @@ historyRouter.get('/history/:id', async function (req, res, next) {
   const otherOffers = offers.filter((o) => o.getDataValue('amount') > maxAmount)
 
   return res.json({ auction, properOffers, otherOffers })
-})
+}
 
 const includeUser = {
   model: User,
