@@ -32,7 +32,7 @@ auctionsRouter.get('/auctions/:id/add-offer', async function (req, res, next) {
     message = 'Aukcja została już zakończona!'
   }
 
-  res.render('auction-add-offer', { auction, message: null })
+  res.render('auction-add-offer', { auction, message })
 })
 
 auctionsRouter.post('/auctions/:id/add-offer', async function (req, res, next) {

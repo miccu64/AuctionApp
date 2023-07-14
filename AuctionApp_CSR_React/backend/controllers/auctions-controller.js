@@ -1,6 +1,6 @@
 import { Offer } from '../models/offer.js'
 import { createAuction, getAllAuctionsSortedAsc, getAuctionById } from '../services/auctions-service.js'
-import { createOffer } from '../services/offer-service.js'
+import { createOffer, getOffersByAuctionId } from '../services/offer-service.js'
 import { getUserById } from '../services/user-service.js'
 
 export async function getAuctions(req, res) {
@@ -68,4 +68,26 @@ export async function createNewAuction(req, res) {
   const auction = await createAuction(name, description, new Date(), endDateTime, maxAmount, user)
 
   return res.status(201).json(auction.getDataValue('id'))
+}
+
+export async function deleteAuction(req, res) {
+  const auctionId = req.params.id
+  const auction = await getAuctionById(auctionId)
+  if (!auction || new Date(auction.getDataValue('endDateTime')) < new Date()) {
+    res.sendStatus(404)
+    return
+  }
+  const userId = req.userId
+  if (auction.getDataValue('userId') !== userId) {
+    res.sendStatus(403)
+    return
+  }
+
+  const relatedOffers = await getOffersByAuctionId(auctionId)
+  for (const offer of relatedOffers) {
+    await offer.destroy()
+  }
+  await auction.destroy()
+
+  return res.status(200).json('Przetarg został usunięty')
 }

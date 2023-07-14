@@ -124,11 +124,11 @@ Ważne narzędzia i biblioteki:
 -   React.js: do budowania interfejsu użytkownika. Używa komponentów funkcyjnych, zarządza stanem aplikacji za pomocą hooków, wykonuje żądania HTTP itp.,
 -   Node.js: Środowisko uruchomieniowe do serwera oraz budowania aplikacji klienckiej,
 -   Microsoft SQL: system bazy danych,
--   Sequelize: narzędzie ORM (Object–Relational Mapping) ułatwiające integrację baackendu z bazą danych,
+-   Sequelize: narzędzie ORM (Object–Relational Mapping) ułatwiające integrację backendu z bazą danych,
 -   Material UI: zbiór kontrolek w stylu Material dla Reacta,
 -   JWT (JSON Web Tokens): do uwierzytelniania użytkowników i zabezpieczania endpointów,
 -   Docker Compose - do ułatwienia uruchomienia aplikacji poprzez przygotowanie środowiska.
 
 ## Podsumowanie
 
-Stworzona aplikacja jest świetnym szkieletem dla aplikacji zbudowanej w celu użycia w realnym świecie. Wymagała by jednak wielu usprawnień. Największą trudnością było tu korzystanie z języka JavaScript na backendzie - moim zdaniem aplikacja backendowa powinna być stworzona w języku silnie typowanym, gdyż ułatwia to korzystanie z pól obiektów, poprawia czytelność i zmniejsza ilość potencjalnych błędów. Perspektywy rozwoju są z całą pewnością duże - można dodać np. przywracanie hasła, obserwowanie cudzych aukcji, powiadomienia o aukcjach (w aplikacji oraz na maila), wielojęzyczność.
+Stworzona aplikacja jest świetnym szkieletem dla aplikacji zbudowanej w celu użycia w realnym świecie. Wymagała by jednak wielu usprawnień. Największą trudnością było tu korzystanie z języka JavaScript na backendzie - moim zdaniem aplikacja backendowa powinna być stworzona w języku silnie typowanym, gdyż ułatwia to korzystanie z pól obiektów, poprawia czytelność i zmniejsza ilość potencjalnych błędów. Perspektywy rozwoju są z całą pewnością duże - można dodać np. przywracanie hasła, obserwowanie cudzych aukcji, powiadomienia o aukcjach (w aplikacji oraz na maila), wielojęzyczność. W celu uwzględnienia wszystkich potrzeb potencjalnych użytkowników należałoby zebrać opinie od takich osób.

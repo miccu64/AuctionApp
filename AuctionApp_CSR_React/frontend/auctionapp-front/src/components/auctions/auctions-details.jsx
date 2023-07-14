@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { axiosClient } from '../../utils/axios-client'
-import { isLogged } from '../../utils/jwt-utils'
+import { getUserId, isLogged } from '../../utils/jwt-utils'
 import TitleWithData from '../shared/title-with-data'
 
 export default function AuctionsDetails() {
@@ -21,6 +21,8 @@ export default function AuctionsDetails() {
   }, [id])
 
   const navigate = useNavigate()
+  const userId = getUserId()
+
   const handleSubmit = (event) => {
     event.preventDefault()
 
@@ -39,6 +41,17 @@ export default function AuctionsDetails() {
       () => {}
     )
   }
+  const handleDelete = () => {
+    if (window.confirm('Czy na pewno usunąć przetarg? Ta operacja jest nieodwracalna!')) {
+      axiosClient.delete(`auctions/${id}`).then(
+        (response) => {
+          toast.success(response.data)
+          navigate('/auctions')
+        },
+        () => {}
+      )
+    }
+  }
 
   return (
     <>
@@ -56,10 +69,15 @@ export default function AuctionsDetails() {
             <TitleWithData
               title={'Czas zakończenia'}
               data={new Date(auction.endDateTime).toLocaleString()}></TitleWithData>
-            <Stack sx={{ pt: 4 }} direction="row" spacing={2} justifyContent="center">
+            <Stack sx={{ pt: 4 }} spacing={2} direction="row" useFlexGap flexWrap="wrap" justifyContent={'center'}>
               <Button type="button" variant="contained" fullWidth onClick={() => navigate(-1)}>
                 Powrót do listy
               </Button>
+              {userId === auction.userId.toString() ? (
+                <Button type="button" variant="contained" color="error" onClick={handleDelete}>
+                  Usuń przetarg
+                </Button>
+              ) : null}
             </Stack>
           </Container>
 
