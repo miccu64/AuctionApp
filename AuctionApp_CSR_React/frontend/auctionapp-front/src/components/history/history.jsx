@@ -61,7 +61,6 @@ export default function History() {
     axiosClient.get('history').then(
       (response) => {
         setAuctions(response.data)
-        console.log(response.data)
       },
       () => {}
     )

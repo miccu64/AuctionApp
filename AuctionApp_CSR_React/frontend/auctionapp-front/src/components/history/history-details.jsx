@@ -1,9 +1,9 @@
 import { Button, Container, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { axiosClient } from '../../utils/axios-client'
-import HistoryOfferDataGrid from '../reusable/history-offer-data-grid'
-import TitleWithData from '../reusable/title-with-data'
+import TitleWithData from '../shared/title-with-data'
+import HistoryOfferDataGrid from './history-offer-data-grid'
 
 export default function HistoryDetails() {
   const [auction, setAuction] = useState(null)
@@ -14,7 +14,6 @@ export default function HistoryDetails() {
   useEffect(() => {
     axiosClient.get(`history/${id}`).then(
       (response) => {
-        console.log(response.data)
         setAuction(response.data.auction)
         setProperOffers(response.data.properOffers)
         setOtherOffers(response.data.otherOffers)
@@ -22,6 +21,8 @@ export default function HistoryDetails() {
       () => {}
     )
   }, [id])
+
+  const navigate = useNavigate()
 
   return (
     <>
@@ -57,8 +58,8 @@ export default function HistoryDetails() {
               </>
             ) : null}
 
-            <Button type="button" variant="contained" href="/history" fullWidth sx={{ mt: 3 }}>
-              Powrót do listy zakończonych przetargów
+            <Button type="button" variant="contained" onClick={() => navigate(-1)} fullWidth sx={{ mt: 3 }}>
+              Powrót do listy
             </Button>
           </Container>
 

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { axiosClient } from '../../utils/axios-client'
 import { isLogged } from '../../utils/jwt-utils'
-import TitleWithData from '../reusable/title-with-data'
+import TitleWithData from '../shared/title-with-data'
 
 export default function AuctionsDetails() {
   const [auction, setAuction] = useState(null)
@@ -57,7 +57,7 @@ export default function AuctionsDetails() {
               title={'Czas zakończenia'}
               data={new Date(auction.endDateTime).toLocaleString()}></TitleWithData>
             <Stack sx={{ pt: 4 }} direction="row" spacing={2} justifyContent="center">
-              <Button type="button" variant="contained" href="/auctions" fullWidth>
+              <Button type="button" variant="contained" fullWidth onClick={() => navigate(-1)}>
                 Powrót do listy
               </Button>
             </Stack>

@@ -49,7 +49,6 @@ export default function Auctions() {
     axiosClient.get('auctions').then(
       (response) => {
         setAuctions(response.data)
-        console.log(response.data)
       },
       () => {}
     )

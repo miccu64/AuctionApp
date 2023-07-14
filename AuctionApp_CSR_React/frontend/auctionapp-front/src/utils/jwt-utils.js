@@ -29,7 +29,6 @@ export function saveJwtToken(token) {
   let decodedToken = {}
   decodedToken = jwt_decode(token)
   const userId = decodedToken.userId
-  console.log(userId)
   localStorage.setItem(userIdLocalStorageKey, userId)
 }
 

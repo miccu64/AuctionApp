@@ -4,9 +4,9 @@ import Typography from '@mui/material/Typography'
 
 const abilities = [
   'przeglądanie szczegółów przetargów,',
-  'wyświetlanie zakończonych przetargów,',
+  'wyświetlanie aktywnych i zakończonych przetargów,',
   'dodawanie nowych przetargów,',
-  'branie udziału w przetargu,',
+  'branie udziału w przetargu i edycja oferty,',
   'logowanie i rejestracja,',
   'podgląd własnych przetargów i aukcji.'
 ]

@@ -1,10 +1,10 @@
-import { Container, Typography } from '@mui/material'
-import { DataGrid } from '@mui/x-data-grid'
+import { Container } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { axiosClient } from '../../utils/axios-client'
 import { isLogged } from '../../utils/jwt-utils'
+import UserDataGrid from './user-data-grid'
 
 const auctionColumns = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -43,7 +43,40 @@ const auctionColumns = [
 ]
 
 const offerColumns = [
-  
+  {
+    field: 'auctionId',
+    headerName: 'ID',
+    width: 70,
+    valueGetter: (params) => params.row.auction.id
+  },
+  {
+    field: 'auctionName',
+    headerName: 'Nazwa',
+    width: 150,
+    flex: 0.33,
+    valueGetter: (params) => params.row.auction.name
+  },
+  {
+    field: 'auctionDescription',
+    headerName: 'Opis',
+    width: 150,
+    flex: 0.34,
+    valueGetter: (params) => params.row.auction.description
+  },
+  {
+    field: 'auctionStartDateTime',
+    headerName: 'Data rozpoczęcia',
+    type: 'dateTime',
+    width: 180,
+    valueGetter: (params) => new Date(params.row.auction.startDateTime)
+  },
+  {
+    field: 'auctionEndDateTime',
+    headerName: 'Data zakończenia',
+    type: 'dateTime',
+    width: 180,
+    valueGetter: (params) => new Date(params.row.auction.endDateTime)
+  },
   {
     field: 'amount',
     headerName: 'Wartość oferty',
@@ -69,7 +102,6 @@ export default function UserAuctionsOffers() {
 
     axiosClient.get('user/participated').then(
       (response) => {
-        console.log(response.data)
         setAuctions(response.data.createdAuctions)
         setHistoricalAuctions(response.data.historicalAuctions)
         setOffers(response.data.submittedOffers)
@@ -79,89 +111,36 @@ export default function UserAuctionsOffers() {
     )
   }, [navigate])
 
-  const noElementsTypography = (
-    <Typography variant="h6" align="center" color="text.secondary" gutterBottom>
-      Brak
-    </Typography>
-  )
+  const onAuctionsClick = (params) => {
+    navigate(`/auctions/${params.row.id}/details`)
+  }
+  const onHistoricalAuctionsClick = (params) => {
+    navigate(`/history/${params.row.id}/details`)
+  }
+  const onOffersClick = (params) => {
+    navigate(`/auctions/${params.row.auction.id}/details`)
+  }
+  const onHistoricalOffersClick = (params) => {
+    navigate(`/history/${params.row.auction.id}/details`)
+  }
+
+  const userDataGridDatas = [
+    ['Twoje niezakończone przetargi', auctions, auctionColumns, onAuctionsClick],
+    ['Twoje zakończone przetargi', historicalAuctions, auctionColumns, onHistoricalAuctionsClick],
+    ['Trwające przetargi, w których brałeś/brałaś udział', offers, offerColumns, onOffersClick],
+    ['Zakończone przetargi, w których brałeś/brałaś udział', historicalOffers, offerColumns, onHistoricalOffersClick]
+  ]
 
   return (
     <Container sx={{ mt: 2 }}>
-      <Container sx={{ mb: 4 }}>
-        <Typography variant="h6" align="center" color="text.primary" gutterBottom>
-          Twoje niezakończone przetargi
-        </Typography>
-        {auctions.length > 0 ? (
-          <DataGrid
-            rows={auctions}
-            columns={auctionColumns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 5
-                }
-              }
-            }}
-            pageSizeOptions={[5, 10, 20, 50]}
-            //onRowClick={onRowClick}
-          />
-        ) : (
-          noElementsTypography
-        )}
-      </Container>
-
-      <Container sx={{ mb: 4 }}>
-        <Typography variant="h6" align="center" color="text.primary" gutterBottom>
-          Twoje zakończone przetargi
-        </Typography>
-        {historicalAuctions.length > 0 ? (
-          <DataGrid
-            rows={historicalAuctions}
-            columns={auctionColumns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 5
-                }
-              }
-            }}
-            pageSizeOptions={[5, 10, 20, 50]}
-            //onRowClick={onRowClick}
-          />
-        ) : (
-          noElementsTypography
-        )}
-      </Container>
-
-      <Container sx={{ mb: 4 }}>
-        <Typography variant="h6" align="center" color="text.primary" gutterBottom>
-          Trwające przetargi, w których brałeś/brałaś udział
-        </Typography>
-        {offers.length > 0 ? (
-          <DataGrid
-            rows={offers}
-            columns={offerColumns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 5
-                }
-              }
-            }}
-            pageSizeOptions={[5, 10, 20, 50]}
-            //onRowClick={onRowClick}
-          />
-        ) : (
-          noElementsTypography
-        )}
-      </Container>
-
-      <Container>
-        <Typography variant="h6" align="center" color="text.primary" gutterBottom>
-          Zakończone przetargi, w których brałeś/brałaś udział
-        </Typography>
-        {historicalOffers.length > 0 ? <></> : noElementsTypography}
-      </Container>
+      {userDataGridDatas.map((data) => (
+        <UserDataGrid
+          title={data[0]}
+          auctions={data[1]}
+          columns={data[2]}
+          onRowClick={data[3]}
+          key={data[0].toString()}></UserDataGrid>
+      ))}
     </Container>
   )
 }
