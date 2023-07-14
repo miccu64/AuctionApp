@@ -4,7 +4,7 @@ App allows to manage auctions and take part in it. This is improved version usin
 
 ## Tech stack
 
-Express JS, React.js, Material UI, Node.js, MSSQL, Sequelize, Docker Compose
+Express JS, React.js, Node.js, MSSQL, Sequelize, Material UI, Docker Compose
 
 ### Running app
 

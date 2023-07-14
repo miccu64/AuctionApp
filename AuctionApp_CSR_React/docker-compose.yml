@@ -1,9 +1,9 @@
 version: "3.7"
 
 services:
-  database:
-    build: ./database/mssql-docker
-    container_name: database
+  csr-database:
+    build: ./backend/database/mssql-docker
+    container_name: csr-database
     environment:
       - SA_PASSWORD=Haslo123!
       - ACCEPT_EULA=Y
@@ -13,20 +13,41 @@ services:
     networks: 
       - shared-network
 
-  server:
-    build: ./
+  csr-backend:
+    build: ./backend
+    container_name: csr-backend
     ports:
       - "3001:3001"
     networks: 
       - shared-network
-    working_dir: /server
+    working_dir: /backend
     command: npm start
     expose:
       - 3001
     links:
-      - database
+      - csr-database
     depends_on:
-      - database
+      - csr-database
+    environment:
+      - TZ=Poland
+    restart: on-failure
+
+
+  csr-frontend:
+    build: ./frontend/auctionapp-front
+    container_name: csr-frontend
+    ports:
+      - "3000:3000"
+    networks: 
+      - shared-network
+    working_dir: /frontend
+    command: serve -s build
+    expose:
+      - 3000
+    links:
+      - csr-backend
+    depends_on:
+      - csr-backend
     environment:
       - TZ=Poland
     restart: on-failure

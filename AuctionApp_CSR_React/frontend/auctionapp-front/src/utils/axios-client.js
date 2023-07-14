@@ -2,7 +2,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import { getJwtToken, removeJwtToken } from './jwt-utils'
 
-export const axiosClient = axios.create({ baseURL: 'http://localhost:3001/' })
+export const axiosClient = axios.create({ baseURL: 'http://csr-backend:3001/' })
 
 axiosClient.interceptors.request.use(
   (config) => {

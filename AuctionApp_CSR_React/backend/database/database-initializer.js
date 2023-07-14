@@ -46,9 +46,9 @@ async function initExampleData() {
     user2
   )
 
-  await createOffer(111.11, new Date(), auction1, user3)
-  await createOffer(2221.11, new Date(), auction1, user1)
-  await createOffer(333331.11, new Date(), auction1, user4)
-  await createOffer(22111.11, new Date(), auction2, user3)
+  await createOffer(111, new Date(), auction1, user3)
+  await createOffer(2221, new Date(), auction1, user1)
+  await createOffer(333331, new Date(), auction1, user4)
+  await createOffer(22111, new Date(), auction2, user3)
   await createOffer(421, new Date(), auction2, user3)
 }
