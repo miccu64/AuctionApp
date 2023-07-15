@@ -8,6 +8,8 @@ beforeAll(async () => {
   await initSequelize()
 })
 beforeEach(async () => {
+  jest.resetModules()
+  jest.clearAllMocks()
   await Offer.destroy({ truncate: true })
   await Auction.destroy({ truncate: true })
   await User.destroy({ truncate: true })

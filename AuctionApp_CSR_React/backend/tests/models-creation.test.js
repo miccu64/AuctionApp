@@ -10,7 +10,7 @@ test('Create user', async () => {
 test('Create auction', async () => {
   const user = await createUser('a', 'a', 'a')
   expect(user).not.toBeNull()
-  
+
   const date = new Date()
   const auction = await createAuction('a', 'a', date, date, 111, user)
   expect(auction).not.toBeNull()
