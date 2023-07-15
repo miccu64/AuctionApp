@@ -10,7 +10,7 @@ export async function initSequelize() {
   await sequelize.authenticate()
   await initModels()
 
-  if ((await User.count()) === 0) {
+  if ((await User.count()) === 0 && sequelize.getDialect() === 'mssql') {
     await initExampleData()
   }
 }

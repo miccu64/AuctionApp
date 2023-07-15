@@ -9,5 +9,5 @@ export const sequelize = new Sequelize('AuctionApp', 'sa', 'Haslo123!', {
       dateFirst: 1
     }
   },
-  logging: (sql) => console.log(sql)
+  logging: () => {}
 })

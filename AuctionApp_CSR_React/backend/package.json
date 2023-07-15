@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "start": "node ./bin/www.js",
-    "start-nodemon": "nodemon ./bin/www.js"
+    "start-nodemon": "nodemon ./bin/www.js",
+    "test": "jest"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
@@ -14,6 +15,7 @@
     "crypto-js": "^4.1.1",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
+    "eslint": "^8.44.0",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^9.0.0",
@@ -24,7 +26,10 @@
     "tedious": "^16.1.0"
   },
   "devDependencies": {
-    "eslint": "^8.44.0",
-    "nodemon": "^2.0.22"
+    "@babel/plugin-transform-modules-commonjs": "^7.22.5",
+    "@types/jest": "^29.5.3",
+    "jest": "^29.6.1",
+    "nodemon": "^2.0.22",
+    "sqlite3": "^5.1.6"
   }
 }

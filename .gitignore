@@ -130,3 +130,4 @@ dist
 .pnp.*
 /PAI-2023-projekt-nr-1.pdf
 /PAI-2023-projekt-nr-2.pdf
+/AuctionApp_CSR_React/backend/test-db.sqlite
