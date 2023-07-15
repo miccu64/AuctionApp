@@ -11,7 +11,7 @@ export function generateJwt(userId) {
 
 /**
  * @param {string} token
- * @returns {boolean}
+ * @returns {number}
  */
 export function verifyJwt(token) {
   try {
