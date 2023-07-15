@@ -64,14 +64,6 @@ export async function getAuctionById(id) {
   return auction
 }
 
-/**
- * @param {number} userId
- * @returns {Promise<Auction[]>}
- */
-export function getAuctionsCreatedByUser(userId) {
-  return Auction.findAll({ where: { userId } })
-}
-
 const includeUser = {
   model: User,
   as: 'user',

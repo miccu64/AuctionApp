@@ -1,4 +1,5 @@
 import { sequelize } from '../database/database.js'
+import { Auction } from '../models/auction.js'
 import { User } from '../models/user.js'
 import { generateJwt } from '../security/jwt-utils.js'
 import { encrypt, passwordMatches } from '../security/password-utils.js'
@@ -57,4 +58,12 @@ export async function trySignInUser(login, password) {
  */
 export function getUserById(id) {
   return User.findByPk(id)
+}
+
+/**
+ * @param {number} userId
+ * @returns {Promise<Auction[]>}
+ */
+export function getAllAuctionsCreatedByUser(userId) {
+  return Auction.findAll({ where: { userId } })
 }

@@ -1,8 +1,8 @@
-import { getAuctionsCreatedByUser } from '../services/auctions-service.js'
 import { getUserOffersWithAuctions } from '../services/offer-service.js'
+import { getAllAuctionsCreatedByUser } from '../services/user-service.js'
 
 export async function getUserAuctionsAndOffers(req, res) {
-  const auctions = await getAuctionsCreatedByUser(req.userId)
+  const auctions = await getAllAuctionsCreatedByUser(req.userId)
   const offers = await getUserOffersWithAuctions(req.userId)
 
   const currentTime = new Date()
