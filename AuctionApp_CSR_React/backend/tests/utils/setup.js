@@ -1,9 +1,9 @@
-import { initSequelize } from '../database/database-initializer.js'
-import { Auction } from '../models/auction.js'
-import { Offer } from '../models/offer.js'
-import { User } from '../models/user.js'
+import { initSequelize } from '../../database/database-initializer.js'
+import { Auction } from '../../models/auction.js'
+import { Offer } from '../../models/offer.js'
+import { User } from '../../models/user.js'
 
-jest.mock('../database/database.js')
+jest.mock('../../database/database.js')
 beforeAll(async () => {
   await initSequelize()
 })
