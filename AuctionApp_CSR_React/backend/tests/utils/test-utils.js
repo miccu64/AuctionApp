@@ -18,3 +18,5 @@ export async function createNotNullTestUser() {
   expect(user).not.toBeNull()
   return user
 }
+
+export const testBaseUrl = 'http://localhost:3001/'

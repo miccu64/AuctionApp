@@ -2,7 +2,7 @@ import { Auction } from '../../models/auction.js'
 import { createAuction, getAllAuctionsSortedAsc, getAuctionById } from '../../services/auctions-service.js'
 import { createDateWithAddedYears, createNotNullTestUser } from '../utils/test-utils.js'
 
-describe('Auctions service test', () => {
+describe('Auctions service tests', () => {
   test('Create auction', async () => {
     const user = await createNotNullTestUser()
     const name = 'a'

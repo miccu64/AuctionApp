@@ -47,7 +47,6 @@ describe('Security tests', () => {
     const result = passwordMatches(encodedPhrase, phrase)
     expect(result).toBeTruthy()
   })
-  
 
   test('Should encrypt and not verify different phrase', () => {
     const phrase = 'a'
