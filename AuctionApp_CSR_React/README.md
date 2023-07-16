@@ -4,11 +4,15 @@ App allows to manage auctions and take part in it. This is improved version usin
 
 ## Tech stack
 
-Express JS, React.js, Node.js, MSSQL, Sequelize, Material UI, Docker Compose
+Express JS, React.js, Node.js, MSSQL, Sequelize, Jest, Material UI, Docker Compose
 
 ### Running app
 
 The only thing in order to start app is to use docker-compose.yml file.
+
+### Tests
+
+npm run test
 
 # Dokumentacja projektu
 
@@ -125,10 +129,11 @@ Ważne narzędzia i biblioteki:
 -   Node.js: Środowisko uruchomieniowe do serwera oraz budowania aplikacji klienckiej,
 -   Microsoft SQL: system bazy danych,
 -   Sequelize: narzędzie ORM (Object–Relational Mapping) ułatwiające integrację backendu z bazą danych,
+-   Jest: narzędzie do przeprowadzania testów,
 -   Material UI: zbiór kontrolek w stylu Material dla Reacta,
 -   JWT (JSON Web Tokens): do uwierzytelniania użytkowników i zabezpieczania endpointów,
 -   Docker Compose - do ułatwienia uruchomienia aplikacji poprzez przygotowanie środowiska.
 
 ## Podsumowanie
 
-Stworzona aplikacja jest świetnym szkieletem dla aplikacji zbudowanej w celu użycia w realnym świecie. Wymagała by jednak wielu usprawnień. Największą trudnością było tu korzystanie z języka JavaScript na backendzie - moim zdaniem aplikacja backendowa powinna być stworzona w języku silnie typowanym, gdyż ułatwia to korzystanie z pól obiektów, poprawia czytelność i zmniejsza ilość potencjalnych błędów. Perspektywy rozwoju są z całą pewnością duże - można dodać np. przywracanie hasła, obserwowanie cudzych aukcji, powiadomienia o aukcjach (w aplikacji oraz na maila), wielojęzyczność. W celu uwzględnienia wszystkich potrzeb potencjalnych użytkowników należałoby zebrać opinie od takich osób.
+Stworzona aplikacja jest świetnym szkieletem dla aplikacji zbudowanej w celu użycia w realnym świecie. Wymagała by jednak wielu usprawnień i pokrycia wiekszej ilości kodu testami. Największą trudnością było tu korzystanie z języka JavaScript na backendzie - moim zdaniem aplikacja backendowa powinna być stworzona w języku silnie typowanym, gdyż ułatwia to korzystanie z pól obiektów, poprawia czytelność i zmniejsza ilość potencjalnych błędów. Perspektywy rozwoju są z całą pewnością duże - można dodać np. przywracanie hasła, obserwowanie cudzych aukcji, powiadomienia o aukcjach (w aplikacji oraz na maila), wielojęzyczność. W celu uwzględnienia wszystkich potrzeb potencjalnych użytkowników należałoby zebrać opinie od takich osób.

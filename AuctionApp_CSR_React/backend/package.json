@@ -1,5 +1,5 @@
 {
-  "name": "auctionapp-ssr",
+  "name": "auctionapp-csr",
   "version": "1.0.0",
   "private": true,
   "type": "module",
