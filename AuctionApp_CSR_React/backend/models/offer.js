@@ -11,7 +11,7 @@ Offer.init(
       autoIncrement: true
     },
     amount: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     dateTime: {
